@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="/admin/Images/faviconnn.png">
+
+    <title>Ecommerce services</title> 
+</head>
+<body>
+<nav>
+    <div class="logo-name">
+        <div class="logo-image">
+            <img src="images/image 8.png" alt="">
+        </div>
+    </div>
+
+    <div class="menu-items">
+        <ul class="nav-links" style="text-align: left;">
+            <li><a href="/admin/index.html">
+                <i class="fa-solid fa-house-user"></i>
+                <span class="link-name">Dashboard</span>
+            </a></li>
+            <li  class="active"><a href="/admin/index.html">
+                <i class="fa-solid fa-inbox"></i>
+                <span class="link-name" style="background-color: #f9fafb; color:#0a0f46;">Services</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span class="link-name">Orders</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-gear"></i>
+                <span class="link-name">Settings</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="link-name">Logout</span>
+            </a></li>
+        </ul>
+        
+        <ul class="logout-mode">
+            
+            <li class="mode">
+                <a href="#">
+                    <i class="uil uil-moon"></i>
+                <span class="link-name">Dark Mode</span>
+            </a>
+
+            <div class="mode-toggle">
+                <span class="switch"></span>
+            </div>
+        </li>
+        </ul>
+    </div>
+</nav>
+
+<section class="dashboard">
+    <div class="top">
+        <i class="uil uil-bars sidebar-toggle"></i>
+        <p>Services</p>
+    <p style="background-color: #f9fafb; padding: 8px; border-radius: 8px;">Balance: 5000 <span style="color: #00bf65;">Top up <i class="fa-solid fa-plus" id="open-modal"></i></span></p>
+        <i class="fa-solid fa-cart-shopping" id="open-modal-new" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;"></i>
+        <i class="fa-regular fa-bell" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;"></i>
+        <h3><img src="images/PASSPORT.JPG" alt="" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;">Obasa Olanrewaju</h3>
+    </div>
+
+<!--top up modal-->
+
+<!--top up modal-->
+<div class="modal-container">
+    <!-- The modal content -->
+<div class="modal-content">
+    <!-- The header with "Topup" and X icon -->
+    <div class="modal-header">
+    <p style="font-weight: 900; font-size: 18px;">Topup</p>
+    <span class="close-modal" id="close-modal">&times;</span>
+    </div>
+<br>
+    <div style="line-height: 30px;">
+        <h4 style="font-size: 18px;">Fund wallet</h4>
+        <h6 style="font-weight: 400; font-size: 16px;">Select how to fund wallet</h6>
+    </div>
+
+    <br>
+    <!-- The body with buttons and input field -->
+    <div class="modal-body">
+    <!-- Buttons for bank transfer and card -->
+    <button class="btn btn-bank-transfer"><i class="fa-solid fa-building-columns" style="color: #2948c3;"></i> Transfer</button>
+    <br>
+    <button class="btn btn-card"><i class="fa-solid fa-credit-card" style="color: #2948c3;"></i> Card</button>
+    <br>
+    <!-- Input field for amount -->
+    <form action="#">
+        <p style="font-size: 14px; font-weight: 600; line-height: 30px;">Amount</p>
+        <input type="number" id="amount-input" placeholder="Enter amount">
+        <br><br>
+        <!-- Continue button -->
+        <button class="btn btn-continue" type="submit">Continue</button>
+    </form>
+
+    </div>
+</div>
+</div>
+<!--endsss-->
+
+<div class="modal-container-new" id="cart-modal-new">
+<!-- The modal content -->
+<div class="modal-content-new">
+    <!-- The header with "Cart" and X icon -->
+    <div class="modal-header-new">
+    <p>Cart</p>
+    <span class="close-modal-new" id="close-modal-new">&times;</span>
+    </div>
+    <!-- The cart table -->
+    <table class="table-new">
+    <thead>
+        <tr>
+        <th class="th-new">NAME</th>
+        <th class="th-new">PRICE</th>
+        <th class="th-new">QUANTITY</th>
+        <th class="th-new">TOTAL</th>
+        </tr>
+    </thead>
+    <tbody id="cart-items-new">
+        <tr>
+        <td class="td-new">
+            Product 1
+            <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+        </td>
+        <td class="td-new">$10.00</td>
+        <td class="td-new">
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+            <span class="quantity-new">1</span>
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+        </td>
+        <td class="total-new">$10.00</td>
+        </tr>
+        <tr>
+        <td class="td-new">
+            Product 2
+            <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+        </td>
+        <td class="td-new">$20.00</td>
+        <td class="td-new">
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+            <span class="quantity-new">1</span>
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+        </td>
+        <td class="total-new">$20.00</td>
+        </tr>
+
+        <tr>
+            <td class="td-new">
+                Product 2
+                <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+            </td>
+            <td class="td-new">$20.00</td>
+            <td class="td-new">
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                <span class="quantity-new">1</span>
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+            </td>
+            <td class="total-new">$20.00</td>
+            </tr>
+
+            <tr>
+                <td class="td-new">
+                    Product 2
+                    <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+                </td>
+                <td class="td-new">$20.00</td>
+                <td class="td-new">
+                    <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                    <span class="quantity-new">1</span>
+                    <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+                </td>
+                <td class="total-new">$20.00</td>
+                </tr>
+
+                
+        
+    </tbody>
+    </table>
+    <!-- Subtotal -->
+    <div class="subtotal-new">Subtotal: $30.00</div>
+    <!-- Cart buttons -->
+    <div class="cart-buttons-new">
+    <button class="continue-shopping-new" onclick="continueShoppingNew()">Continue Shopping</button>
+    <button class="proceed-checkout-new">Proceed to Checkout</button>
+    </div>
+</div>
+</div>
+    <br><br><br>
+    <div class="dash-content">
+     
+    <br><br>
+
+
+<div style="position: relative; margin-left: auto; margin-right:auto;">
+    <h1 style="color: #0a0f46; font-size: 20px; font-weight: 500; line-height: 90px;">Category</h1>
+    <div class="st">
+        <li><a href="../services/webdesign.html" >Web design</a></li>
+        <li><a href="../services/webapplications.html">Web application</a></li>
+        <li><a href="../services/ecommerceservices.html" style="color: #0a0f46;">E-commerece solution</a></li>
+        <li><a href="../services/servicedomain.html" >Domain</a></li>
+        <li><a href="../services/hostingservice.html" >Hosting</a></li>
+    </div>
+    <br>
+    
+    <br>
+    <div class="columnsprice">
+    <ul class="price">
+    <div class="header">Starter
+        <br>
+        <h1><sub>N</sub>150,000</h1>
+    </div>
+
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+
+        <li>
+        <a href="#" class="button">Add to cart</a>
+        </li>
+    <br>
+    </ul>
+</div>
+
+<div class="columnsprice">
+    <ul class="price">
+    <div class="header">Standard
+        <br>
+        <h1><sub>N</sub>150,000</h1>
+    </div>
+
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><a href="#" class="button">Add to cart</a></li>
+    <br>
+    </ul>
+</div>
+
+<div class="columnsprice">
+    <ul class="price">
+    <div class="header">Premium
+        <br>
+        <h1><sub>N</sub>150,000</h1>
+    </div>
+
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><i class="fa-regular fa-circle-check"></i> 10GB Storage</li>
+    <li><a href="#" class="button">Add to cart</a></li>
+    <br>
+    </ul>
+</div>
+</div>
+
+<h6 style="color: #0a0f46; text-align: center; line-height: 60px; font-size: 15px;"><i class="fa-regular fa-copyright"></i>2023 Webexecutive</h6>
+</section>
+
+
+<script>
+    
+   // Get the modal container and content elements for top up
+    const modalContainer = document.querySelector('.modal-container');
+    const modalContent = document.querySelector('.modal-content');
+
+    // Get the close modal icon and plus icon elements
+    const closeModalIcon = document.querySelector('#close-modal');
+    const openModalIcon = document.querySelector('#open-modal');
+
+    // Add event listeners to the close modal icon and plus icon
+    closeModalIcon.addEventListener('click', () => {
+    modalContainer.style.display = 'none';
+    });
+
+    openModalIcon.addEventListener('click', () => {
+    modalContainer.style.display = 'block';
+    modalContent.style.top = '50%';
+    modalContent.style.transform = 'translateY(-50%)';
+    modalContent.style.width = '450px';
+    modalContent.style.height = '560px';
+    });
+
+
+
+
+
+    // Get modal elements for cart modal
+    const modalContainerNew = document.querySelector('.modal-container-new');
+    const openModalIconNew = document.querySelector('#open-modal-new');
+    const closeModalIconNew = document.querySelector('#close-modal-new');
+
+    // Show the modal
+    openModalIconNew.addEventListener('click', () => {
+    modalContainerNew.style.display = 'flex';
+    });
+
+    // Hide the modal
+    closeModalIconNew.addEventListener('click', () => {
+    modalContainerNew.style.display = 'none';
+    });
+
+    // Update quantity and total
+    function updateQuantityNew(button, change) {
+    const quantityElemNew = button.parentElement.querySelector('.quantity-new');
+    const priceElemNew = button.parentElement.previousElementSibling;
+    const totalElemNew = button.parentElement.nextElementSibling;
+    
+    let quantityNew = parseInt(quantityElemNew.textContent);
+    const priceNew = parseFloat(priceElemNew.textContent.replace('$', ''));
+    
+    quantityNew += change;
+    if (quantityNew < 1) quantityNew = 1;
+    
+    quantityElemNew.textContent = quantityNew;
+    totalElemNew.textContent = `$${(priceNew * quantityNew).toFixed(2)}`;
+    
+    updateSubtotalNew();
+    }
+
+    // Remove cart item
+    function removeCartItemNew(button) {
+    const rowNew = button.parentElement.parentElement;
+    rowNew.remove();
+    updateSubtotalNew();
+    }
+
+    // Update subtotal
+    function updateSubtotalNew() {
+    const totalElemsNew = document.querySelectorAll('.total-new');
+    let subtotalNew = 0;
+    
+    totalElemsNew.forEach(totalElemNew => {
+        subtotalNew += parseFloat(totalElemNew.textContent.replace('$', ''));
+    });
+    
+    document.querySelector('.subtotal-new').textContent = `Subtotal: $${subtotalNew.toFixed(2)}`;
+    }
+
+    // Continue shopping
+    function continueShoppingNew() {
+    document.querySelector('.modal-container-new').style.display = 'none';
+    }
+    </script>
+    </body>
+    </html>

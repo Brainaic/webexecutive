@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examination Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #4a90e2;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+
+        #questions-container {
+            margin-top: 20px;
+        }
+
+        .question {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .option {
+            margin-left: 20px;
+        }
+
+        /* Timer Styles */
+        #timer-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Styles */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 300px;
+            width: 90%;
+        }
+
+        #close-modal {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #close-modal:hover {
+            background-color: #357ab8;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            form {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .question {
+                padding: 15px;
+            }
+
+            input[type="text"], input[type="email"], input[type="password"] {
+                width: calc(100% - 16px);
+            }
+
+            button {
+                width: 100%;
+                padding: 15px;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            label {
+                font-size: 0.9rem;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 1rem;
+            }
+
+            .question {
+                padding: 10px;
+            }
+
+            input[type="text"], input[type="email"], input[type="password"] {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>Examination Portal</h1>
+    <form id="student-info">
+        <label for="name">Enter your name:</label>
+        <input type="text" id="name" required>
+        <label for="email">Enter your email:</label>
+        <input type="email" id="email" required>
+        <label for="app-number">Enter your application number:</label>
+        <input type="text" id="app-number" required>
+        <label for="password">Enter the exam password:</label>
+        <input type="password" id="password" required>
+        <button type="submit">Begin</button>
+    </form>
+    <div id="questions-container">
+        <!-- questions will be rendered here -->
+    </div>
+    <div id="timer-container">
+        <p id="timer">Time remaining: 1 minutes</p>
+    </div>
+    <div id="modal">
+        <div id="modal-content">
+            <p id="modal-message"></p>
+            <button id="close-modal">Close</button>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Paris", "London", "Berlin", "Rome"],
+                correct: 0
+            },
+            {
+                question: "What is the largest planet in our solar system?",
+                options: ["Earth", "Saturn", "Jupiter", "Uranus"],
+                correct: 2
+            }
+            // Add more questions here
+        ];
+
+        const EXAM_PASSWORD = "mdtest2024";
+
+        let studentName = "";
+        let email = "";
+        let appNumber = "";
+        let score = 0;
+        let totalTime = 1 * 60; // 1 minute in seconds
+        let timeRemaining = totalTime;
+        let timerInterval;
+        let answers = []; // To store the user's answers
+
+        document.getElementById("student-info").addEventListener("submit", (e) => {
+            e.preventDefault();
+            studentName = document.getElementById("name").value;
+            email = document.getElementById("email").value;
+            appNumber = document.getElementById("app-number").value;
+            const enteredPassword = document.getElementById("password").value;
+
+            if (enteredPassword !== EXAM_PASSWORD) {
+                showModal("Incorrect password. Please try again.");
+                return;
+            }
+
+            const lastExamTime = localStorage.getItem(studentName);
+
+            if (lastExamTime) {
+                const currentTime = new Date().getTime();
+                const timeDiff = (currentTime - parseInt(lastExamTime)) / (1000 * 60); // in minutes
+                if (timeDiff < 30) {
+                    showModal("You cannot retake the exam within 30 minutes.");
+                    return;
+                }
+            }
+            renderQuestions();
+            startTimer();
+        });
+
+        function renderQuestions() {
+            const questionsContainer = document.getElementById("questions-container");
+            questionsContainer.innerHTML = "";
+            questions.forEach((question, index) => {
+                const questionHTML = `
+                    <div class="question">
+                        <h2>${question.question}</h2>
+                        <ul>
+                            ${question.options.map((option, i) => `
+                                <li>
+                                    <input type="radio" name="question-${index}" value="${i}">
+                                    <label>${option}</label>
+                                </li>
+                            `).join("")}
+                        </ul>
+                    </div>
+                `;
+                questionsContainer.innerHTML += questionHTML;
+            });
+            const submitButton = document.createElement("button");
+            submitButton.textContent = "Submit";
+            submitButton.addEventListener("click", checkAnswers);
+            submitButton.style.marginTop = "20px"; // Add spacing above the submit button
+            submitButton.style.padding = "10px 20px";
+            submitButton.style.backgroundColor = "#4a90e2";
+            submitButton.style.color = "white";
+            submitButton.style.border = "none";
+            submitButton.style.borderRadius = "4px";
+            submitButton.style.cursor = "pointer";
+            submitButton.style.transition = "background-color 0.3s ease";
+            submitButton.addEventListener("mouseover", () => {
+                submitButton.style.backgroundColor = "#357ab8";
+            });
+            submitButton.addEventListener("mouseout", () => {
+                submitButton.style.backgroundColor = "#4a90e2";
+            });
+            questionsContainer.appendChild(submitButton);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                document.getElementById("timer").textContent = `Time remaining: ${minutes} minutes ${seconds} seconds`;
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    timeIsUp();
+                }
+            }, 1000);
+        }
+
+        function timeIsUp() {
+            showModal("Your time is up. Thank you for participating!");
+            checkAnswers();
+        }
+
+        function checkAnswers() {
+            score = 0;
+            answers = []; // Clear previous answers
+            questions.forEach((question, index) => {
+                const answer = document.querySelector(`input[name="question-${index}"]:checked`);
+                if (answer && answer.value == question.correct) {
+                    score++;
+                }
+                answers.push(answer ? parseInt(answer.value) : null);
+            });
+            displayResults();
+        }
+
+        function displayResults() {
+            const timeSpent = totalTime - timeRemaining;
+            const minutesSpent = Math.floor(timeSpent / 60);
+            const secondsSpent = timeSpent % 60;
+            const minutesRemaining = Math.floor(timeRemaining / 60);
+            const secondsRemaining = timeRemaining % 60;
+
+            const resultsHTML = `
+                <h1>Thank you, ${studentName}, for completing!</h1>
+                <p>Your score is ${score} out of ${questions.length}.</p>
+                <p>Total time spent: ${minutesSpent} minutes ${secondsSpent} seconds</p>
+                <p>Total time remaining: ${minutesRemaining} minutes ${secondsRemaining} seconds</p>
+            `;
+            document.getElementById("questions-container").innerHTML = resultsHTML;
+
+            const currentTime = new Date().getTime();
+            localStorage.setItem(studentName, currentTime);
+
+            downloadPDF();
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const timeSpent = totalTime - timeRemaining;
+            const minutesSpent = Math.floor(timeSpent / 60);
+            const secondsSpent = timeSpent % 60;
+            const minutesRemaining = Math.floor(timeRemaining / 60);
+            const secondsRemaining = timeRemaining % 60;
+
+            let yPosition = 10;
+
+            doc.text(`Thank you, ${studentName}, for completing!`, 10, yPosition);
+            yPosition += 10;
+            doc.text(`Your score is ${score} out of ${questions.length}.`, 10, yPosition);
+            yPosition += 10;
+            doc.text(`Total time spent: ${minutesSpent} minutes ${secondsSpent} seconds`, 10, yPosition);
+            yPosition += 10;
+            doc.text(`Total time remaining: ${minutesRemaining} minutes ${secondsRemaining} seconds`, 10, yPosition);
+            yPosition += 10;
+
+            questions.forEach((question, index) => {
+                yPosition += 10;
+                doc.text(`${index + 1}. ${question.question}`, 10, yPosition);
+                question.options.forEach((option, i) => {
+                    yPosition += 10;
+                    const correct = i === question.correct ? " (correct)" : "";
+                    const userAnswer = answers[index] === i ? " (your answer)" : "";
+                    doc.text(`${String.fromCharCode(65 + i)}. ${option}${correct}${userAnswer}`, 10, yPosition);
+                });
+            });
+
+            // Automatically download the PDF without displaying
+            doc.save("result.pdf");
+        }
+
+        function showModal(message) {
+            const modal = document.getElementById("modal");
+            const modalMessage = document.getElementById("modal-message");
+            modalMessage.textContent = message;
+            modal.style.display = "flex";
+        }
+
+        document.getElementById("close-modal").addEventListener("click", () => {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        });
+    </script>
+</body>
+</html>

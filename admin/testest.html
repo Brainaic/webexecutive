@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="../admin/Images/faviconnn.png">
+    <script src="/admin/script.js"></script>
+    <title>Ecommerce services</title> 
+    <style>
+        /* ===== Google Font Import - Poppins ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Abril Fatface:wght@400;500;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+:root{
+    /* ===== Colors ===== */
+
+    --panel-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --border-color: #e6e5e5;
+    --toggle-color: #DDD;
+    --box1-color: #4DA3FF;
+    --box2-color: #FFE6AC;
+    --box3-color: #E7D1FC;
+    --title-icon-color: #fff;
+    
+    /* ====== Transition ====== */
+    --tran-05: all 0.5s ease;
+    --tran-03: all 0.3s ease;
+    --tran-03: all 0.2s ease;
+}
+
+body{
+    min-height: 100vh;
+    
+}
+body.dark{
+    --primary-color: #3A3B3C;
+    --panel-color: #242526;
+    --text-color: #CCC;
+    --black-light-color: #CCC;
+    --border-color: #4D4C4C;
+    --toggle-color: #FFF;
+    --box1-color: #3A3B3C;
+    --box2-color: #3A3B3C;
+    --box3-color: #3A3B3C;
+    --title-icon-color: #CCC;
+}
+/* === Custom Scroll Bar CSS === */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0b3cc1;
+}
+
+body.dark::-webkit-scrollbar-thumb:hover,
+body.dark .activity-data::-webkit-scrollbar-thumb:hover{
+    background: #3A3B3C;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background-color: #2c3092;
+    border-right: 1px solid var(--border-color);
+    transition: var(--tran-05);
+    color: #fff;
+}
+nav.close{
+    width: 73px;
+}
+nav .logo-name{
+  
+    align-items: center;
+}
+nav .logo-image{
+    display: flex;
+    justify-content: center;
+    min-width: 45px;
+}
+nav .logo-image img{
+    width: 100%;
+    object-fit: contain;
+
+}
+
+nav .logo-name .logo_name{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-left: 14px;
+    transition: var(--tran-05);
+}
+nav.close .logo_name{
+    opacity: 0;
+    pointer-events: none;
+}
+nav .menu-items{
+    margin-top: 40px;
+    height: calc(100% - 90px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.menu-items li{
+    list-style: none;
+    text-align: left;
+}
+.menu-items li a{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-decoration: none;
+    position: relative;
+    text-align: left;
+    font-size: 14px;
+    
+}
+
+.menu-items li a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: underline;
+  }
+  
+.nav-links li a:hover:before{
+    content: "";
+    position: absolute;
+    left: -7px;
+    height: 5px;
+    width: 5px;
+    
+    background-color: white;
+    color: #0c0323;
+}
+body.dark li a:hover:before{
+    background-color: var(--text-color);
+}
+.menu-items li a i{
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 5px;
+    
+}
+.menu-items li a .link-name{
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;    
+    transition: var(--tran-05);
+    padding: 20px;
+    text-align: left;
+}
+nav.close li a .link-name{
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.nav-links li a:hover i,
+.nav-links li a:hover .link-name{
+    color: #2c3092;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+body.dark .nav-links li a:hover i,
+body.dark .nav-links li a:hover .link-name{
+    color: #0c0323;
+    padding: 20px;
+    border-radius: 8px;
+}
+.menu-items .logout-mode{
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+.menu-items .mode{
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+.menu-items .mode-toggle{
+    position: absolute;
+    right: 14px;
+    height: 50px;
+    min-width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.mode-toggle .switch{
+    position: relative;
+    display: inline-block;
+    height: 22px;
+    width: 40px;
+    border-radius: 25px;
+    background-color: var(--toggle-color);
+}
+.switch:before{
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 15px;
+    width: 15px;
+    background-color: var(--panel-color);
+    border-radius: 50%;
+    transition: var(--tran-03);
+}
+body.dark .switch:before{
+    left: 20px;
+}
+
+.dashboard{
+    position: relative;
+    left: 250px;
+    background-color: var(--panel-color);
+    min-height: 100vh;
+    width: calc(100% - 250px);
+    padding: 10px 14px;
+    transition: var(--tran-05);
+    
+}
+nav.close ~ .dashboard{
+    left: 73px;
+    width: calc(100% - 73px);
+}
+.dashboard .top{
+    position: fixed;
+    top: 0;
+    left: 250px;
+    display: grid;
+    grid-template-columns: 40px 503px 200px 40px 40px 300px;
+    width: calc(100% - 250px);
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: var(--panel-color);
+    transition: var(--tran-05);
+    z-index: 10;
+}
+nav.close ~ .dashboard .top{
+    left: 73px;
+    width: calc(100% - 73px);
+}
+.dashboard .top .sidebar-toggle{
+    font-size: 26px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.top h3{
+    font-size: medium;
+}
+.top h3 img{
+    border-radius: 50%;
+    width: 40px;
+}
+
+
+
+
+.dashboard .dash-content{
+    padding-top: 50px;
+    padding: 20px;
+}
+.dash-content .title{
+    align-items: center;
+    margin: 60px 0 30px 0;
+}
+
+.dash-content .title .text{
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-left: 0px;
+}
+.dash-content .boxes{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.dash-content .boxes .box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    width: calc(100% / 3 - 15px);
+    padding: 15px 20px;
+    background-color: var(--box1-color);
+    transition: var(--tran-05);
+}
+.boxes .box i{
+    font-size: 35px;
+    color: var(--text-color);
+}
+.boxes .box .text{
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.boxes .box .number{
+    font-size: 40px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.boxes .box.box2{
+    background-color: var(--box2-color);
+}
+.boxes .box.box3{
+    background-color: var(--box3-color);
+}
+#orders-table {
+    border-collapse: collapse;
+    width: 100%;
+    position: relative;
+    margin: auto;
+}
+button{
+    background-color: #00bf65; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+#orders-table th, #orders-table td {
+    border: 1px solid #ddd;
+    padding: 16px;
+    text-align: left;
+
+}
+#orders-table tr.highlight {
+    background-color: #ffffff;
+    color: #17b26a;
+
+}
+.more-icon {
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+}
+.remove-button {
+    display: none;
+    cursor: pointer;
+    background-color: #17b26a;
+    color: white;
+    border: none;
+    padding: 5px;
+}
+.message {
+    display: none;
+    color: #17b26a;
+}
+
+input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    color: #fff;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: #17b26a;
+
+}
+.completed{
+    color: #17b26a;
+    
+}
+.processing{
+    color: #2d9fff;
+}
+.pending{
+    color: #f79009;
+}
+
+@media (max-width: 1000px) {
+nav{
+    width: 73px;
+}
+nav.close{
+    width: 250px;
+}
+nav .logo_name{
+    opacity: 0;
+    pointer-events: none;
+}
+nav.close .logo_name{
+    opacity: 1;
+    pointer-events: auto;
+}
+nav li a .link-name{
+    opacity: 0;
+    pointer-events: none;
+}
+nav.close li a .link-name{
+    opacity: 1;
+    pointer-events: auto;
+}
+nav ~ .dashboard{
+    left: 73px;
+    width: calc(100% - 73px);
+}
+nav.close ~ .dashboard{
+    left: 250px;
+    width: calc(100% - 250px);
+}
+nav ~ .dashboard .top{
+    left: 73px;
+    width: calc(100% - 73px);
+}
+nav.close ~ .dashboard .top{
+    left: 250px;
+    width: calc(100% - 250px);
+}
+.activity .activity-data{
+    overflow-X: scroll;
+}
+}
+
+@media (max-width: 780px) {
+.dash-content .boxes .box{
+    width: calc(100% / 2 - 15px);
+    margin-top: 15px;
+}
+#orders-table {
+    width: 100%;
+}
+}
+@media (max-width: 560px) {
+.dash-content .boxes .box{
+    width: 100% ;
+}
+.dash-content{
+    width: 100%;
+}
+}
+@media (max-width: 400px) {
+nav{
+    width: 0px;
+}
+nav.close{
+    width: 73px;
+}
+nav .logo_name{
+    opacity: 0;
+    pointer-events: none;
+}
+nav.close .logo_name{
+    opacity: 0;
+    pointer-events: none;
+}
+nav li a .link-name{
+    opacity: 0;
+    pointer-events: none;
+}
+nav.close li a .link-name{
+    opacity: 0;
+    pointer-events: none;
+}
+nav ~ .dashboard{
+    left: 0;
+    width: 100%;
+}
+nav.close ~ .dashboard{
+    left: 73px;
+    width: calc(100% - 73px);
+}
+nav ~ .dashboard .top{
+    left: 0;
+    width: 100%;
+}
+nav.close ~ .dashboard .top{
+    left: 0;
+    width: 100%;
+}
+#orders-table {
+    width: 100%;
+}
+
+}
+
+
+.st{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    width: 50%;
+}
+
+.st li a{
+    color: #8e9095;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.nd{
+    display: grid;
+    grid-template-columns:auto auto auto auto auto; 
+    width: 50%; 
+    
+}
+
+.nd a{
+    text-decoration: none;
+    color: #140a3a;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+    .columnsprice {
+    float: left;
+    width: calc(33.3% - 40px);
+    margin: 0 20px;
+    
+    
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow for a nicer effect */
+    
+    }
+    
+    .columnsprice .price {
+        list-style-type: none;
+    
+        margin: 0;
+        padding: 0;
+    
+        -webkit-transition: 0.3s;
+        transition: 0.3s;
+    }
+    
+    
+    .columnsprice .price .header {
+        background-color: #00bf65;
+        color: white;
+        font-size: 20px;
+        width: 100%;
+    padding: 30px;
+        text-align: left;
+        border-radius: 10px 10px 0 0;
+    }
+    
+    .columnsprice .price li {
+        padding: 15px;
+        text-align: left;
+        line-height: 20px;
+        position: relative;
+        left: 20px;
+        color: #081e4b;
+    }
+    
+    
+    
+    .columnsprice .price a {
+        background-color: #2d3198;
+        border-radius: 10px;
+        border: none;
+        color: white;
+        padding: 15px 160px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 18px;
+        text-decoration: none;
+        
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .columnsprice {
+        width: 100%;
+        margin: 20px 0;
+        }
+        .columnsprice .button {
+        padding: 10px 20px;
+        }
+    }
+
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 10px;
+        height: 300px; /* Should be removed. Only for demonstration */
+    }
+
+    .column h2{
+        color: white;
+        font-size: 45px;
+        text-align: left;
+        position: relative;
+        right: 100px;
+        top: 25%;
+        font-family: 'Abril fatface';
+        font-weight: 500;
+    }
+
+    .column p{
+        color: white;
+        font-size: 16px;
+        text-align: left;
+        position: relative;
+        top: 27.5%;
+        right: 180px;
+        font-weight: 500;
+    }
+
+    .column p a{
+        background-color: #ffffff; /* Green */
+        border: none;
+        border-radius: 8px;
+        color: #00bf65;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+
+    }
+
+    .row{
+        border-radius: 20px;
+        background-color: #00bf65;
+    }
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+        .column {
+        width: 100%;
+        }
+
+        
+    }
+
+
+
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(8, 30, 75, 0.671);
+            display: none;
+            z-index: 1000; /* Add a high z-index value */
+
+        }
+        
+        /* Style the modal content */
+        .modal-content {
+            position: relative;
+            margin: 40px auto;
+            width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001; /* Ensure content is above the container */
+
+        }
+        
+        /* Style the modal header */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Style the close modal icon */
+        .close-modal {
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: 200;
+            background-color: #e8f7fc;
+            color: #464858;
+            border-radius: 24px;
+            padding: 5px;
+        }
+        
+        /* Style the buttons */
+        .btn {
+            padding: 24px 32px 24px 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            background-color: #f2f4f7;
+            color: #212337;
+            text-align: left;
+        }
+        
+        
+        
+        
+        
+        .btn-continue {
+            background-color: #2d3198;
+            color: #fff;
+            text-align: center;
+        }
+        
+        /* Style the input field */
+        #amount-input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fafafa;
+            border-radius: 8px;
+            width: 100%;
+            padding: 24px 32px 24px 32px;}
+        
+        /* Show the modal when the plus icon is clicked */
+        #open-modal:hover {
+            cursor: pointer;
+        }
+
+
+
+    /*cart modal*/
+    .modal-container-new {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(8, 30, 75, 0.671);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    /* Style the modal content */
+    .modal-content-new {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 1000px;
+        position: relative;
+    }
+    
+    /* Style the modal header */
+    .modal-header-new {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    /* Style the close modal icon */
+    .close-modal-new {
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    
+    /* Style the table */
+    .table-new {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    .table-new, .th-new, .td-new {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 8px;
+    }
+    
+    /* Style the subtotal */
+    .subtotal-new {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    /* Style the buttons */
+    .quantity-btn-new {
+        cursor: pointer;
+        padding: 5px 10px;
+        font-size: 16px;
+    }
+    
+    .remove-btn-new {
+        cursor: pointer;
+        color: red;
+        font-size: 14px;
+        display: block;
+        margin-top: 5px;
+    }
+    
+    .cart-buttons-new {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    
+    .cart-buttons-new button {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+    }
+    
+    .continue-shopping-new {
+        background-color: #ddd;
+    }
+    
+    .proceed-checkout-new {
+        background-color: #28a745;
+        color: #fff;
+    }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="logo-name">
+        <div class="logo-image">
+            <img src="images/image 8.png" alt="">
+        </div>
+    </div>
+
+    <div class="menu-items">
+        <ul class="nav-links" style="text-align: left;">
+            <li><a href="/admin/index.html">
+                <i class="fa-solid fa-house-user"></i>
+                <span class="link-name">Dashboard</span>
+            </a></li>
+            <li  class="active"><a href="/admin/webdesign.html">
+                <i class="fa-solid fa-inbox"></i>
+                <span class="link-name" style="background-color: #f9fafb; color:#0a0f46;">Services</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span class="link-name">Orders</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-gear"></i>
+                <span class="link-name">Settings</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="link-name">Logout</span>
+            </a></li>
+        </ul>
+        
+        <ul class="logout-mode">
+            
+            <li class="mode">
+                <a href="#">
+                    <i class="uil uil-moon"></i>
+                <span class="link-name">Dark Mode</span>
+            </a>
+
+            <div class="mode-toggle">
+                <span class="switch"></span>
+            </div>
+        </li>
+        </ul>
+    </div>
+</nav>
+
+<section class="dashboard">
+    <div class="top">
+        <i class="uil uil-bars sidebar-toggle"></i>
+        <p>Services</p>
+    <p style="background-color: #f9fafb; padding: 8px; border-radius: 8px;">Balance: 5000 <span style="color: #00bf65;">Top up <i class="fa-solid fa-plus" id="open-modal"></i></span></p>
+        <i class="fa-solid fa-cart-shopping" id="open-modal-new" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;"></i>
+        <i class="fa-regular fa-bell" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;"></i>
+        <h3><img src="images/PASSPORT.JPG" alt="" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;">Obasa Olanrewaju</h3>
+    </div>
+
+<!--top up modal-->
+
+<!--top up modal-->
+<div class="modal-container">
+    <!-- The modal content -->
+<div class="modal-content">
+    <!-- The header with "Topup" and X icon -->
+    <div class="modal-header">
+    <p style="font-weight: 900; font-size: 18px;">Topup</p>
+    <span class="close-modal" id="close-modal">&times;</span>
+    </div>
+<br>
+    <div style="line-height: 30px;">
+        <h4 style="font-size: 18px;">Fund wallet</h4>
+        <h6 style="font-weight: 400; font-size: 16px;">Select how to fund wallet</h6>
+    </div>
+
+    <br>
+    <!-- The body with buttons and input field -->
+    <div class="modal-body">
+    <!-- Buttons for bank transfer and card -->
+    <button class="btn btn-bank-transfer"><i class="fa-solid fa-building-columns" style="color: #2948c3;"></i> Transfer</button>
+    <br>
+    <button class="btn btn-card"><i class="fa-solid fa-credit-card" style="color: #2948c3;"></i> Card</button>
+    <br>
+    <!-- Input field for amount -->
+    <form action="#">
+        <p style="font-size: 14px; font-weight: 600; line-height: 30px;">Amount</p>
+        <input type="number" id="amount-input" placeholder="Enter amount">
+        <br><br>
+        <!-- Continue button -->
+        <button class="btn btn-continue" type="submit">Continue</button>
+    </form>
+
+    </div>
+</div>
+</div>
+<!--endsss-->
+
+<div class="modal-container-new" id="cart-modal-new">
+<!-- The modal content -->
+<div class="modal-content-new">
+    <!-- The header with "Cart" and X icon -->
+    <div class="modal-header-new">
+    <p>Cart</p>
+    <span class="close-modal-new" id="close-modal-new">&times;</span>
+    </div>
+    <!-- The cart table -->
+    <table class="table-new">
+    <thead>
+        <tr>
+        <th class="th-new">NAME</th>
+        <th class="th-new">PRICE</th>
+        <th class="th-new">QUANTITY</th>
+        <th class="th-new">TOTAL</th>
+        </tr>
+    </thead>
+    <tbody id="cart-items-new">
+        <tr>
+        <td class="td-new">
+            Product 1
+            <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+        </td>
+        <td class="td-new">$10.00</td>
+        <td class="td-new">
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+            <span class="quantity-new">1</span>
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+        </td>
+        <td class="total-new">$10.00</td>
+        </tr>
+        <tr>
+        <td class="td-new">
+            Product 2
+            <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+        </td>
+        <td class="td-new">$20.00</td>
+        <td class="td-new">
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+            <span class="quantity-new">1</span>
+            <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+        </td>
+        <td class="total-new">$20.00</td>
+        </tr>
+
+        <tr>
+            <td class="td-new">
+                Product 2
+                <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+            </td>
+            <td class="td-new">$20.00</td>
+            <td class="td-new">
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                <span class="quantity-new">1</span>
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+            </td>
+            <td class="total-new">$20.00</td>
+            </tr>
+
+            <tr>
+                <td class="td-new">
+                    Product 2
+                    <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+                </td>
+                <td class="td-new">$20.00</td>
+                <td class="td-new">
+                    <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                    <span class="quantity-new">1</span>
+                    <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+                </td>
+                <td class="total-new">$20.00</td>
+                </tr>
+
+                
+        
+    </tbody>
+    </table>
+    <!-- Subtotal -->
+    <div class="subtotal-new">Subtotal: $30.00</div>
+    <!-- Cart buttons -->
+    <div class="cart-buttons-new">
+    <button class="continue-shopping-new" onclick="continueShoppingNew()">Continue Shopping</button>
+    <button class="proceed-checkout-new">Proceed to Checkout</button>
+    </div>
+</div>
+</div>
+    <br><br><br>
+    <div class="dash-content">
+     
+    <br><br>
+
+
+<div style="position: relative; margin-left: auto; margin-right:auto;">
+    <h1 style="color: #0a0f46; font-size: 20px; font-weight: 500; line-height: 90px;">Category</h1>
+    <div class="st">
+        <li><a href="#" >Web design</a></li>
+        <li><a href="#" >Web application</a></li>
+        <li><a href="#">E-commerce</a></li>
+        <li><a href="#" style="color: #0a0f46; font-weight:900;">Domain</a></li>
+        <li><a href="#">Hosting</a></li>
+    </div>
+    <br>
+    
+    <br>
+    
+
+    <table id="orders-table">
+        <thead style="background: black; color: white;">
+            <tr>
+            <th><input type="checkbox" id="select_all_checkboxes"></th>
+            <th>Expiring domains</th>
+            <th>Created</th>
+            <th>Expiring</th>
+            <th>Price</th>
+            <th>Renewal</th>
+            <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <td><input type="checkbox" class="delete_checkbox"></td>
+            <td>Name.com</td>
+            <td>2023-04-07</td>
+            <td>1 minute 4 seconds</td>
+            <td>N200,000</td>
+            <td>N200,000</td>
+            <td>
+                <span class="more-icon">&#8942;</span>
+                <button class="remove-button">Remove</button>
+                <span class="message">Select your order first</span>
+            </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" class="delete_checkbox"></td>
+                <td>Name.com</td>
+                <td>2023-04-07</td>
+                <td>1 minute 4 seconds</td>
+                <td>N200,000</td>
+                <td>N200,000</td>
+                <td>
+                    <span class="more-icon">&#8942;</span>
+                    <button class="remove-button">Remove</button>
+                    <span class="message">Select your order first</span>
+                </td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="delete_checkbox"></td>
+                    <td>Name.com</td>
+                    <td>2023-04-07</td>
+                    <td>1 minute 4 seconds</td>
+                    <td>N200,000</td>
+                    <td>N200,000</td>
+                    <td>
+                        <span class="more-icon">&#8942;</span>
+                        <button class="remove-button">Remove</button>
+                        <span class="message">Select your order first</span>
+                    </td>
+                    </tr>
+
+                    <tr>
+                        <td><input type="checkbox" class="delete_checkbox"></td>
+                        <td>Name.com</td>
+                        <td>2023-04-07</td>
+                        <td>1 minute 4 seconds</td>
+                        <td>N200,000</td>
+                        <td>N200,000</td>
+                        <td>
+                            <span class="more-icon">&#8942;</span>
+                            <button class="remove-button">Remove</button>
+                            <span class="message">Select your order first</span>
+                        </td>
+                        </tr>
+        </tbody>
+        </table>
+        <button id="multiple_deletion" style="display: none;">Delete Selected Orders</button>
+    <br><br>
+
+
+</div>
+
+<h6 style="color: #0a0f46; text-align: center; line-height: 60px; font-size: 15px;"><i class="fa-regular fa-copyright"></i>2023 Webexecutive</h6>
+</section>
+
+
+<script>
+    
+   // Get the modal container and content elements for top up
+    const modalContainer = document.querySelector('.modal-container');
+    const modalContent = document.querySelector('.modal-content');
+
+    // Get the close modal icon and plus icon elements
+    const closeModalIcon = document.querySelector('#close-modal');
+    const openModalIcon = document.querySelector('#open-modal');
+
+    // Add event listeners to the close modal icon and plus icon
+    closeModalIcon.addEventListener('click', () => {
+    modalContainer.style.display = 'none';
+    });
+
+    openModalIcon.addEventListener('click', () => {
+    modalContainer.style.display = 'block';
+    modalContent.style.top = '50%';
+    modalContent.style.transform = 'translateY(-50%)';
+    modalContent.style.width = '450px';
+    modalContent.style.height = '560px';
+    });
+
+
+
+
+
+    // Get modal elements for cart modal
+    const modalContainerNew = document.querySelector('.modal-container-new');
+    const openModalIconNew = document.querySelector('#open-modal-new');
+    const closeModalIconNew = document.querySelector('#close-modal-new');
+
+    // Show the modal
+    openModalIconNew.addEventListener('click', () => {
+    modalContainerNew.style.display = 'flex';
+    });
+
+    // Hide the modal
+    closeModalIconNew.addEventListener('click', () => {
+    modalContainerNew.style.display = 'none';
+    });
+
+    // Update quantity and total
+    function updateQuantityNew(button, change) {
+    const quantityElemNew = button.parentElement.querySelector('.quantity-new');
+    const priceElemNew = button.parentElement.previousElementSibling;
+    const totalElemNew = button.parentElement.nextElementSibling;
+    
+    let quantityNew = parseInt(quantityElemNew.textContent);
+    const priceNew = parseFloat(priceElemNew.textContent.replace('$', ''));
+    
+    quantityNew += change;
+    if (quantityNew < 1) quantityNew = 1;
+    
+    quantityElemNew.textContent = quantityNew;
+    totalElemNew.textContent = `$${(priceNew * quantityNew).toFixed(2)}`;
+    
+    updateSubtotalNew();
+    }
+
+    // Remove cart item
+    function removeCartItemNew(button) {
+    const rowNew = button.parentElement.parentElement;
+    rowNew.remove();
+    updateSubtotalNew();
+    }
+
+    // Update subtotal
+    function updateSubtotalNew() {
+    const totalElemsNew = document.querySelectorAll('.total-new');
+    let subtotalNew = 0;
+    
+    totalElemsNew.forEach(totalElemNew => {
+        subtotalNew += parseFloat(totalElemNew.textContent.replace('$', ''));
+    });
+    
+    document.querySelector('.subtotal-new').textContent = `Subtotal: $${subtotalNew.toFixed(2)}`;
+    }
+
+    // Continue shopping
+    function continueShoppingNew() {
+    document.querySelector('.modal-container-new').style.display = 'none';
+    }
+    </script>
+    </body>
+    </html>

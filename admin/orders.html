@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="../admin/Images/faviconnn.png">
+
+    <title>Your Orders</title> 
+    <style>
+        #pagination {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #pagination button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        #pagination button:disabled {
+            background-color: #d6d6d6;
+            cursor: not-allowed;
+        }
+        
+        #pagination #page-info {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .styled-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin: 20px;
+            
+        }
+        
+        .styled-form input, .styled-form select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease;
+        }
+        
+        .styled-form input:focus, .styled-form select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .styled-form input::placeholder {
+            color: #999;
+        }
+        
+        .styled-form select {
+            appearance: none;
+            background-color: #fff;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658c-.566-.626-.106-1.658.748-1.658h9.602c.854 0 1.314 1.032.748 1.658l-4.796 5.482c-.566.626-1.508.626-2.074 0z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 12px 12px;
+            padding-right: 30px;
+        }
+        
+        @media (max-width: 600px) {
+            .styled-form {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+<nav>
+    <div class="logo-name">
+        <div class="logo-image">
+            <img src="images/image 8.png" alt="">
+        </div>
+    </div>
+
+    <div class="menu-items">
+        <ul class="nav-links" style="text-align: left;">
+            <li><a href="#">
+                <i class="fa-solid fa-house-user"></i>
+                <span class="link-name">Dashboard</span>
+            </a></li>
+            <li><a href="../admin/services/webdesign.html">
+                <i class="fa-solid fa-inbox"></i>
+                <span class="link-name">Services</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span class="link-name">Orders</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-gear"></i>
+                <span class="link-name">Settings</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="link-name">Logout</span>
+            </a></li>
+        </ul>
+        
+        <ul class="logout-mode">
+            
+            <li class="mode">
+                <a href="#">
+                    <i class="uil uil-moon"></i>
+                <span class="link-name">Dark Mode</span>
+            </a>
+
+            <div class="mode-toggle">
+                <span class="switch"></span>
+            </div>
+        </li>
+        </ul>
+    </div>
+</nav>
+
+<section class="dashboard">
+    <div class="top">
+        <i class="uil uil-bars sidebar-toggle"></i>
+        <p>Dashboard</p>
+    <p style="background-color: #f9fafb; padding: 8px; border-radius: 8px;">Balance: 5000 <span style="color: #00bf65;">Top up <i class="fa-solid fa-plus" id="open-modal"></i></span></p>
+        <i class="fa-solid fa-cart-shopping" id="open-modal-new" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;"></i>
+        <i class="fa-regular fa-bell" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;"></i>
+        <h3><img src="images/PASSPORT.JPG" alt="" style="background-color: #f9fafb; padding: 8px; border-radius: 8px;">Obasa Olanrewaju</h3>
+    </div>
+
+<!--top up modal-->
+    <div class="modal-container">
+        <!-- The modal content -->
+    <div class="modal-content">
+        <!-- The header with "Topup" and X icon -->
+        <div class="modal-header">
+        <p style="font-weight: 900; font-size: 18px;">Topup</p>
+        <span class="close-modal" id="close-modal">&times;</span>
+        </div>
+<br>
+        <div style="line-height: 30px;">
+            <h4 style="font-size: 18px;">Fund wallet</h4>
+            <h6 style="font-weight: 400; font-size: 16px;">Select how to fund wallet</h6>
+        </div>
+
+        <br>
+        <!-- The body with buttons and input field -->
+        <div class="modal-body">
+        <!-- Buttons for bank transfer and card -->
+        <button class="btn btn-bank-transfer"><i class="fa-solid fa-building-columns" style="color: #2948c3;"></i> Transfer</button>
+        <br>
+        <button class="btn btn-card"><i class="fa-solid fa-credit-card" style="color: #2948c3;"></i> Card</button>
+        <br>
+        <!-- Input field for amount -->
+        <form action="#">
+            <p style="font-size: 14px; font-weight: 600; line-height: 30px;">Amount</p>
+            <input type="number" id="amount-input" placeholder="Enter amount">
+            <br><br>
+            <!-- Continue button -->
+            <button class="btn btn-continue" type="submit">Continue</button>
+        </form>
+
+        </div>
+    </div>
+    </div>
+    <!--endsss-->
+
+    <div class="modal-container-new" id="cart-modal-new">
+    <!-- The modal content -->
+    <div class="modal-content-new">
+        <!-- The header with "Cart" and X icon -->
+        <div class="modal-header-new">
+        <p>Cart</p>
+        <span class="close-modal-new" id="close-modal-new">&times;</span>
+        </div>
+        <!-- The cart table -->
+        <table class="table-new">
+        <thead>
+            <tr>
+            <th class="th-new">NAME</th>
+            <th class="th-new">PRICE</th>
+            <th class="th-new">QUANTITY</th>
+            <th class="th-new">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody id="cart-items-new">
+            <tr>
+            <td class="td-new">
+                Product 1
+                <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+            </td>
+            <td class="td-new">$10.00</td>
+            <td class="td-new">
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                <span class="quantity-new">1</span>
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+            </td>
+            <td class="total-new">$10.00</td>
+            </tr>
+            <tr>
+            <td class="td-new">
+                Product 2
+                <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+            </td>
+            <td class="td-new">$20.00</td>
+            <td class="td-new">
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                <span class="quantity-new">1</span>
+                <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+            </td>
+            <td class="total-new">$20.00</td>
+            </tr>
+ 
+            <tr>
+                <td class="td-new">
+                    Product 2
+                    <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+                </td>
+                <td class="td-new">$20.00</td>
+                <td class="td-new">
+                    <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                    <span class="quantity-new">1</span>
+                    <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+                </td>
+                <td class="total-new">$20.00</td>
+                </tr>
+
+                <tr>
+                    <td class="td-new">
+                        Product 2
+                        <span class="remove-btn-new" onclick="removeCartItemNew(this)">Remove</span>
+                    </td>
+                    <td class="td-new">$20.00</td>
+                    <td class="td-new">
+                        <button class="quantity-btn-new" onclick="updateQuantityNew(this, -1)">-</button>
+                        <span class="quantity-new">1</span>
+                        <button class="quantity-btn-new" onclick="updateQuantityNew(this, 1)">+</button>
+                    </td>
+                    <td class="total-new">$20.00</td>
+                    </tr>
+
+                    
+            
+        </tbody>
+        </table>
+        <!-- Subtotal -->
+        <div class="subtotal-new">Subtotal: $30.00</div>
+        <!-- Cart buttons -->
+        <div class="cart-buttons-new">
+        <button class="continue-shopping-new" onclick="continueShoppingNew()">Continue Shopping</button>
+        <button class="proceed-checkout-new">Proceed to Checkout</button>
+        </div>
+    </div>
+    </div>
+    <br><br><br>
+    <div class="dash-content">
+        
+        <form class="styled-form">
+            <input type="text" placeholder="Order ID">
+            <select name="service-type">
+                <option value="">Service Type</option>
+                <option value="ALFKI">Alfreds Futterkiste</option>
+                <option value="NORTS">North/South</option>
+                <option value="WOLZA">Wolski Zajazd</option>
+            </select>
+            <select name="status">
+                <option value="">Status</option>
+                <option value="ALFKI">Alfreds Futterkiste</option>
+                <option value="NORTS">North/South</option>
+                <option value="WOLZA">Wolski Zajazd</option>
+            </select>
+        </form>
+        
+<br><br>
+<table id="orders-table">
+    <thead style="background: black; color: white;">
+        <tr>
+            <th><input type="checkbox" id="select_all_checkboxes"></th>
+            <th>User ID</th>
+            <th>Order Date</th>
+            <th>Service</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <!-- Rows will be inserted here by JavaScript -->
+    </tbody>
+</table>
+<br>
+<div id="pagination">
+    <button id="prev-btn">Previous</button>
+    <span id="page-info">Page 1 of 1</span>
+    <button id="next-btn">Next</button>
+</div>
+
+<script>
+    const rowsPerPage = 8;
+    const tableData = [
+        { id: '001', date: '2023-04-07', service: 'Website', quantity: 1, price: 'N200,000', status: 'Completed' },
+        { id: '002', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Processing' },
+        { id: '003', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Pending' },
+        { id: '004', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Completed' },
+        { id: '005', date: '2023-04-07', service: 'Website', quantity: 1, price: 'N200,000', status: 'Completed' },
+        { id: '002', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Processing' },
+        { id: '003', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Pending' },
+        { id: '004', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Completed' },
+        { id: '001', date: '2023-04-07', service: 'Website', quantity: 1, price: 'N200,000', status: 'Completed' },
+        { id: '002', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Processing' },
+        { id: '003', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Pending' },
+        { id: '004', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Completed' },
+        { id: '001', date: '2023-04-07', service: 'Website', quantity: 1, price: 'N200,000', status: 'Completed' },
+        { id: '002', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Processing' },
+        { id: '003', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Pending' },
+        { id: '004', date: '2023-04-07', service: 'Webapp', quantity: 1, price: 'N200,000', status: 'Completed' },
+        // Add more rows as needed to test pagination
+    ];
+
+    let currentPage = 1;
+
+    function renderTable(page) {
+        const startIndex = (page - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        const rows = tableData.slice(startIndex, endIndex);
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = '';
+
+        rows.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="checkbox" class="delete_checkbox"></td>
+                <td>${row.id}</td>
+                <td>${row.date}</td>
+                <td>${row.service}</td>
+                <td>${row.quantity}</td>
+                <td>${row.price}</td>
+                <td>${row.status}</td>
+                <td>
+                    <span class="more-icon">&#8942;</span>
+                    <button class="remove-button">Remove</button>
+                    <span class="message">Select your order first</span>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById('page-info').textContent = `Page ${page} of ${Math.ceil(tableData.length / rowsPerPage)}`;
+        document.getElementById('prev-btn').disabled = page === 1;
+        document.getElementById('next-btn').disabled = page === Math.ceil(tableData.length / rowsPerPage);
+    }
+
+    function changePage(direction) {
+        if (direction === 'next' && currentPage < Math.ceil(tableData.length / rowsPerPage)) {
+            currentPage++;
+        } else if (direction === 'prev' && currentPage > 1) {
+            currentPage--;
+        }
+        renderTable(currentPage);
+    }
+
+    document.getElementById('prev-btn').addEventListener('click', () => changePage('prev'));
+    document.getElementById('next-btn').addEventListener('click', () => changePage('next'));
+
+    // Initial render
+    renderTable(currentPage);
+</script>
+        <button id="multiple_deletion" style="display: none;">Delete Selected Orders</button>
+    <br><br>
+
+
+
+<h6 style="color: #0a0f46; text-align: center; line-height: 60px; font-size: 15px;"><i class="fa-regular fa-copyright"></i>2023 Webexecutive</h6>
+</section>
+
+
+<script src="script.js"></script>
+</body>
+</html>

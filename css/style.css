@@ -1,0 +1,686 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Abril Fatface:wght@400;500;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    ;
+}
+html{
+    scroll-behavior: smooth;
+}
+
+/* custom scroll bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* all similar content styling codes */
+section{
+    padding: 100px 0;
+}
+.max-width{
+    max-width: 1900px;
+    padding: 0 80px;
+    margin: auto;
+}
+
+.navbar{
+    position: relative;
+    width: 85%;
+    z-index: 999;
+  
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    background-color: white;
+    background-size: 20px;
+    top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 24px;
+    gap: 77rem;
+}
+.navbar.sticky{
+    padding: 15px 0;
+    background: #2d3198;
+    color: #ffffff;
+   
+}
+.navbar .max-width{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px 20px 30px;
+  
+}
+.navbar .logo a{
+    color: #14013A;
+    font-size: 25px;
+    font-weight: 100;
+    word-spacing: 90px ;
+}
+
+
+.navbar .menu li{
+    list-style: none;
+    display: inline-block;
+}
+.navbar .menu li a{
+    display: block;
+    color: #14013A;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 25px;
+    transition: color 0.3s ease;
+    padding: 0px 16px;
+    background-color: none;
+}
+.navbar .menu li a:hover{
+    color: rgb(255, 255, 255);
+    background-color: #2d3198;
+    padding: 12px;
+    border-radius: 6px;
+    transition: 1.5s ease;
+}
+.navbar.sticky .menu li a:hover{
+    color: #fff;
+}
+
+/* menu btn styling */
+.menu-btn{
+    color: #ffffff;
+    font-size: 23px;
+    cursor: pointer;
+    display: none;
+}
+.scroll-up-btn{
+    position: fixed;
+    height: 45px;
+    width: 42px;
+    background: #2d3198;
+    right: 30px;
+    bottom: 10px;
+    text-align: center;
+    line-height: 45px;
+    color: #fff;
+    z-index: 9999;
+    font-size: 30px;
+    border-radius: 6px;
+    border-bottom-width: 2px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    box-shadow: 2px #000000;
+}
+.scroll-up-btn.show{
+    bottom: 30px;
+    opacity: 1;
+    pointer-events: auto;
+}
+.scroll-up-btn:hover{
+    filter: brightness(90%);
+}
+
+
+
+.home{
+    color: #fff;
+    min-height: 500px;
+    background-size: contain;
+    background-attachment: fixed;
+    background: #e2eefe;
+    margin-bottom: -100px;
+}
+.home .max-width{
+    width: 100%;
+}
+.home .max-width .row{
+    margin-right: 0;
+}
+.home .home-content .text-2{
+    font-size: 50px;
+    text-align: center;
+    font-family: 'Abril Fatface';
+    font-weight: 600;
+    color: #000000;
+}
+.home .home-content .text-1{
+    font-size: 14px;
+    font-weight: 100;
+    margin-left: -3px;
+    color: #000000;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    
+}
+.home .home-content .text-3{
+    font-size: 40px;
+    margin: 5px 0;
+}
+.home .home-content .text-2 span{
+    color: #2d3198;
+    font-weight: 800;
+}
+.home .home-content a{
+    display: inline-block;
+    background: #2d3198;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Inter';
+    padding: 10px 32px;
+    margin-top: 20px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 2px solid #210f60;
+    transition: all 0.3s ease;
+}
+.home .home-content a:hover{
+    color: white;
+    background: none;
+    background-color: #210f60;
+}
+
+.services{
+    background: #ffffff;
+    padding-bottom: 0px;
+}
+.services .servtext{
+    padding: 60px 120px;
+}
+.services .servtext h1{
+    text-align: left;
+font-size: 44px;
+font-family: 'Abril Fatface';
+
+position: relative;
+}
+
+.services .servtext h6{
+    text-align: left;
+font-size: 16px;
+font-family: 'Inter';
+font-weight: lighter;
+
+position: relative;
+}
+
+.services .servtext a{
+    display: inline-block;
+    background: #2d3198;
+
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 30px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 1px solid #210f60;
+    transition: all 0.3s ease;
+}
+
+.services .serv-content{
+    background: #ffffff;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 60px 120px 60px 120px;
+}
+
+.services .serv-content .card{
+    width: calc(50% - 10px);
+    background: #ffffff;
+    text-align: left;
+    border-radius: 6px;
+    border: 2px solid #d9d9d9;
+    padding: 90px 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+.services .serv-content .card:hover{
+    background: #2d3198;
+    color: #f1f1f1;
+    padding: 90px 32px;
+}
+.services .serv-content .card .box{
+    transition: all 0.3s ease;
+}
+.services .serv-content .card:hover .box{
+    transform: scale(1.05);
+}
+.services .serv-content .card img{
+    transition: color 0.3s ease;
+}
+
+
+.services .serv-content .card .text{
+    font-size: 34px;
+    font-weight: 500;
+    margin: 10px 0 7px 0;
+    font-family: 'Abril Fatface';
+}
+
+.services .serv-content .card p{
+    font-family: 'Inter';
+    font-size: 18px;
+}
+
+
+
+
+
+
+
+/* registerrr */
+
+    .about .about-content{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1600px;
+        padding: 0 20px;
+        margin: auto;
+        color: #ffffff;
+        }
+
+    /* about section styling */
+
+    .about .about-content .right{
+        width: 50%;
+    }
+    .about .about-content .right img{
+        width: 100%;
+        
+        border-radius: 6px;
+    }
+    .about .about-content .left{
+        width: 50%;
+    }
+    .about .about-content .left .text{
+        font-size: 36px;
+        font-weight: 100;
+        line-height: 54px;
+        font-family: 'Abril Fatface';
+        text-align: left;
+    }
+
+    .about .about-content .left p{
+        text-align: justify; 
+        font-family: 'Inter';
+        font-size: 16px;
+    }
+    .about .about-content .left a{
+        display: inline-block;
+        background: rgb(255, 255, 255);
+        color: #2d3198;
+        font-size: 15px;
+        font-weight: 500;
+        padding: 8px 12px 8px 12px;
+        margin-top: 20px;
+        border-radius: 6px;
+        border: 0.5px solid #14013A;
+        font-family: 'Inter';
+        transition: all 0.3s ease;
+    }
+    .about .about-content .left a:hover{
+        color: rgb(255, 255, 255);
+        background: none;
+    }
+
+    .Rcolumn {
+        float: left;
+        width: 50%;
+        padding: 10px;
+        /* Should be removed. Only for demonstration */
+        border-radius: 6px;
+        background-color: none;
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+        
+    }
+    
+    /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+        .Rcolumn {
+        width: 100%;
+        }
+    }
+
+    .footer {
+        position: relative;
+        font-family: 'Inter';
+        background: #ffffff;
+        border-radius: 6px;
+        text-align: left;
+    }
+    
+    .footer .texts{
+        text-align: center;
+        width: 30%;
+        position: relative;
+        margin: auto;
+        line-height: 36px;
+    }
+    
+    .footer .texts h1{
+        font-family: 'Abril fatface';
+        font-size: 24px;
+        color: #14013A;
+    }
+    
+    .footer .texts p{
+        font-family: 'Inter';
+        font-size: 14px;
+    }
+    
+    .footer .footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+        gap: 12.5rem;
+        padding: 40px 100px 40px 100px;
+        position: relative;
+    }
+    
+    .footer-row .footer-col img{
+        width: 8rem;
+    }
+    
+    .footer-row .footer-col h4 {
+        color: #000;
+        font-size: 18px;
+        font-weight: 700px;
+    }
+    
+    .footer-col .links {
+        margin-top: 20px;
+    }
+    
+    .footer-col .links li {
+        list-style: none;
+        margin-bottom: 10px;
+    }
+    
+    .footer-col .links li a {
+        text-decoration: none;
+        color: #000;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .footer-col .links li a:hover {
+        color: #2d3198;
+    }
+    
+    .footer-col p {
+        margin: 20px 0;
+        color: #bfbfbf;
+        max-width: 300px;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    
+    
+    .footer-col .icons {
+        display: flex;
+        margin-top: 30px;
+        gap: 50px;
+        cursor: pointer;
+    }
+    
+    .footer-col .icons i {
+        color: #210f60;
+        font-size: 20px;
+    }
+    
+    .footer-col .icons i:hover  {
+        color: #2d3198;
+    }
+    
+    @media (max-width: 768px) {
+        .footer {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        transform: none;
+        width: 100%;
+        border-radius: 0;
+        }
+    
+        .footer .footer-row {
+        padding: 50px;
+        gap: 1rem;
+        }
+    
+        .footer-col form {
+        display: block;
+        }
+    
+        .footer-col form :where(input, button) {
+        width: 100%;
+        }
+    
+        .footer-col form button {
+        margin: 10px 0 0 0;
+        }
+        .footer .texts{
+            width: 80%;
+        }
+    }
+    
+   
+
+
+
+/* responsive media query start */
+@media (max-width: 1104px) {
+    .about .about-content .left .text{
+        line-height: 36px;
+    }
+}
+
+@media (max-width: 991px) {
+    .max-width{
+        padding: 0 50px;
+    }
+}
+@media (max-width: 947px){
+    .menu-btn{
+        display: block;
+        z-index: 999;
+    }
+    .menu-btn i.active:before{
+        content: "\f00d";
+    }
+    .navbar .menu{
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        left: -100%;
+        top: 0;
+        background: #ffffff;
+        color: #14013A;
+        text-align: center;
+        padding-top: 80px;
+        transition: all 0.3s ease;
+    }
+    .navbar .menu.active{
+        left: 0;
+    }
+    .navbar .menu li{
+        display: block;
+    }
+    .navbar .menu li a{
+        display: inline-block;
+        margin: 20px 0; 
+        font-size: 25px;
+    }
+
+    .home .home-content .text-1{
+        font-size: 14px;
+    }
+
+    .home .home-content .text-2{
+        font-size: 30px;
+    }
+    .home .home-content .text-3{
+        font-size: 35px;
+    }
+    .home .home-content a{
+        font-size: 15px;
+        padding: 10px 30px;
+    }
+    .max-width{
+        max-width: 930px;
+    }
+    .about .about-content .column{
+        width: 100%;
+    }
+    .about .about-content .right{
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 60px;
+    }
+    .about .about-content .left{
+        flex: 100%;
+    }
+    .about .about-content .left .text{
+        font-size: 24px;
+    }
+    .about .about-content .left p{
+        font-size: 14px;
+    }
+}
+
+.services .serv-content2{
+    position: relative;
+    top: 10px;
+}
+.services .serv-content .card{
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+}
+.services .serv-content .card .text{
+    font-size: 20px;
+}
+.services .serv-content .card p{
+    font-size: 16px;
+}
+
+.services .serv-content2 .card2 .text{
+    font-size: 20px;
+}
+.services .serv-content2 .card2 p{
+    font-size: 16px;
+}
+.services .serv-content2 .card2{
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+}
+
+@media (max-width: 690px) {
+    .max-width{
+        padding: 0 23px;
+    }
+    .home .home-content .text-1{
+        font-size: 14px;
+    }
+    .home .home-content .text-2{
+        font-size: 30px;
+    }
+    .home .home-content .text-3{
+        font-size: 32px;
+    }
+    .home .home-content a{
+        font-size: 15px;
+    }
+    .services .serv-content{
+        padding: 24px 16px;
+    }
+    .services .serv-content2{
+        padding: 24px 16px;
+        position: relative;
+        top: 10px;
+    
+    }
+    .services h1{
+        padding: 24px 16px;
+        position: relative;
+        font-size: 20px;
+    }
+    .services h6{
+        padding: 24px 16px;
+        position: relative;
+        font-size: 14px;
+
+    }
+    .services .serv-content .card{
+        width: 100%;
+    }
+    .services .serv-content2 .card2{
+        width: 100%;
+    }
+    .services .servtext{
+        padding: 15px 30px;
+
+    }
+    .services .servtext a{
+        width: 90%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .home .home-content .text-1{
+        font-size: 14px;
+    }
+    .home .home-content .text-2{
+        font-size: 30px;
+    }
+    .home .home-content .text-3{
+        font-size: 27px;
+    }
+   
+    .contact .right form .fields{
+        flex-direction: column;
+    }
+    .contact .right form .name,
+    .contact .right form .email{
+        margin: 0;
+    }
+    .right form .error-box{
+       width: 150px;
+    }
+    .scroll-up-btn{
+        right: 15px;
+        bottom: 15px;
+        height: 38px;
+        width: 35px;
+        font-size: 23px;
+        line-height: 38px;
+    }
+}
