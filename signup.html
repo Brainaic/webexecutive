@@ -153,7 +153,7 @@
                             gender: document.querySelector('input[name="gender"]').value,
                             role: "buyer" // Assuming the role is fixed as "buyer"
                         };
-            
+                    
                         fetch('https://webexe.onrender.com/api/v1/users/signup', {
                             method: 'POST',
                             headers: {
@@ -163,6 +163,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
+                            console.log('Response data:', data);
                             if (data.status === 'success') {
                                 alert('Signup successful!');
                             } else {
@@ -170,7 +171,7 @@
                             }
                         })
                         .catch(error => {
-                            console.error('Error', error);
+                            console.error('Error:', error);
                             alert('Signup failed: ' + error.message);
                         });
                     });
