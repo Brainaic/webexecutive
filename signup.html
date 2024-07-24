@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>WEB EXECUTIVE-Create an account with us</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <link rel="stylesheet" href="/css/about.css">
     <script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
@@ -143,6 +145,8 @@
                         } else {
                             errorMessage.style.display = 'none';
                         }
+
+
                         const formData = {
                             first_name: document.querySelector('input[name="first_name"]').value,
                             last_name: document.querySelector('input[name="last_name"]').value,
@@ -153,27 +157,25 @@
                             gender: document.querySelector('input[name="gender"]').value,
                             role: "buyer" // Assuming the role is fixed as "buyer"
                         };
-                    
-                        fetch('https://webexe.onrender.com/api/v1/users/signup', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(formData)
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Response data:', data);
-                            if (data.status === 'success') {
-                                alert('Signup successful!');
-                            } else {
-                                alert('Signup failed: ' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Signup failed: ' + error.message);
-                        });
+                        
+                        axios.post('https://webexe.onrender.com/api/v1/users/signup', formData)
+                            .then(response => {
+                                console.log('Response data:', response.data);
+                                if (response.data.status === 'success') {
+                                    alert('Signup successful!');
+                                } else {
+                                    alert('Signup failed: ' + response.data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                if (error.response && error.response.data && error.response.data.message) {
+                                    alert('Signup failed: ' + error.response.data.message);
+                                } else {
+                                    alert('Signup failed: ' + error.message);
+                                }
+                            });
+                        
                     });
                 </script>
         
