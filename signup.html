@@ -131,53 +131,7 @@
                 </form>
             </div>
         
-            <script>
-                document.getElementById('signupForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-        
-                    const password = document.getElementById('password').value;
-                    const repeatPassword = document.getElementById('repeatPassword').value;
-                    const errorMessage = document.getElementById('errorMessage');
-        
-                    if (password !== repeatPassword) {
-                        errorMessage.style.display = 'block';
-                        return;
-                    } else {
-                        errorMessage.style.display = 'none';
-                    }
-        
-                    const formData = {
-                        first_name: document.querySelector('input[name="first_name"]').value,
-                        last_name: document.querySelector('input[name="last_name"]').value,
-                        email: document.querySelector('input[name="email"]').value,
-                        password: document.querySelector('input[name="password"]').value,
-                        phone: document.querySelector('input[name="phone"]').value,
-                        DOB: document.querySelector('input[name="DOB"]').value,
-                        gender: document.querySelector('input[name="gender"]').value,
-                        role: "buyer" // Assuming the role is fixed as "buyer"
-                    };
-        
-                    fetch('https://webexe.onrender.com/api/v1/users/signup', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            alert('Signup successful!');
-                        } else {
-                            alert('Signup failed: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error', error);
-                        alert('Signup failed: ' + error.message);
-                    });
-                });
-            </script>
+            
                 <form action="#" class="signup">
                     <br>
                     <p style="font-weight: 700; font-size:14px; text-align:center;">Step 1 - Profile</p>
