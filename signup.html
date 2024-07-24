@@ -190,70 +190,121 @@
                 </script>
         
             
-                <form action="#" class="signup">
-                    <br>
-                    <p style="font-weight: 700; font-size:14px; text-align:center;">Step 1 - Profile</p>
-                    <br>
-                     <div style="display: grid; grid-template-columns: auto auto;   grid-column-gap: 10px;">
-                        
-                    <div class="field">
-                        <p>First name</p>
-                        <input type="text" placeholder="First name" required>
+                <form action="#" class="login" id="salesrep">
+                    <div style="display: grid; grid-template-columns: auto auto; grid-column-gap: 10px;">
+                        <div class="field">
+                            <p>First name</p>
+                            <input type="text" placeholder="First name" name="first_name" required>
                         </div>
                         <div class="field">
                             <p>Last name</p>
-                            <input type="text" placeholder="Last name" required>
-                            </div>
+                            <input type="text" placeholder="Last name" name="last_name" required>
+                        </div>
                     </div>
-<br>
-                    <div style="display: grid; grid-template-columns: auto auto;   grid-column-gap: 10px;">
-                    <div class="field">
-                        <p>Email Address</p>
-                        <input type="email" placeholder="Email address" required>
+                    <br>
+                    <div style="display: grid; grid-template-columns: auto auto; grid-column-gap: 10px;">
+                        <div class="field">
+                            <p>Email Address</p>
+                            <input type="email" placeholder="Email address" name="email" required>
                         </div>
                         <div class="field">
                             <p>Phone</p>
-                            <input type="tel" placeholder="phone number" required>
-                            </div>
+                            <input type="tel" placeholder="phone number" name="phone" required>
+                        </div>
                     </div>
-<br>
-                    <div style="display: grid; grid-template-columns: auto auto;   grid-column-gap: 10px;">
-                    <div class="field">
-                        <p>Gender</p>
-                        <input type="text" placeholder="Gender" required>
+                    <br>
+                    <div style="display: grid; grid-template-columns: auto auto; grid-column-gap: 10px;">
+                        <div class="field">
+                            <p>Gender</p>
+                            <input type="text" placeholder="Gender" name="gender" required>
                         </div>
                         <div class="field">
                             <p>Date of birth</p>
-                            <input type="text" placeholder="Date of birth" required>
-                            </div>
+                            <input type="date" placeholder="Date of birth" name="DOB" required>
+                        </div>
                     </div>
-<br>
-                    <div style="display: grid; grid-template-columns: auto auto;   grid-column-gap: 10px;">
-                    <div class="field">
-                        <p>Password</p>
-                        <input type="password" placeholder="Password" required>
+                    <br>
+                    <div style="display: grid; grid-template-columns: auto auto; grid-column-gap: 10px;">
+                        <div class="field">
+                            <p>Password</p>
+                            <input type="password" placeholder="Password" name="password" id="password" required>
                         </div>
                         <div class="field">
                             <p>Repeat password</p>
-                            <input type="password" placeholder="Repeat password" required>
-                            </div>
+                            <input type="password" placeholder="Repeat password" id="repeatPassword" required>
+                        </div>
                     </div>
-<br>
-                <div class="field">
-                <p>Referral Code (optional)</p>
-                <input type="text" placeholder="Referral code" required>
-                </div>
-                <br>
-                
                     <br>
+                    <div class="field">
+                        <p>Referral Code (optional)</p>
+                        <input type="text" placeholder="Referral code">
+                    </div>
+                    <br>
+                    <p class="error-message" id="errorMessage" style="display: none; color: red;"></p>
                     <br>
                     <div class="field btn">
-                    <div class="btn-layer"></div>
-                    <input type="submit" value="Create Account">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Create Account">
                     </div>
                     <div class="signup-link">Already have an account? <a href="">Log in</a></div>
                     <div class="signup-link">By clicking “Create account” you indicate that you have read and agree to our <a href="../webexecutive/terms.html">terms of service</a> and <a href="../webexecutive/privacy.html">Privacy policy</a></div>
-                    </form>
+                </form>
+                
+                <script>
+                    document.getElementById('salesrep').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                
+                        const password = document.getElementById('password').value;
+                        const repeatPassword = document.getElementById('repeatPassword').value;
+                        const errorMessage = document.getElementById('errorMessage');
+                
+                        if (password !== repeatPassword) {
+                            errorMessage.style.display = 'block';
+                            errorMessage.textContent = 'Passwords do not match. Please try again.';
+                            return;
+                        }
+                
+                        const passwordPattern = /^(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/;
+                        if (!passwordPattern.test(password)) {
+                            errorMessage.style.display = 'block';
+                            errorMessage.textContent = 'Password must be at least 8 characters long and contain at least one special character.';
+                            return;
+                        }
+                
+                        errorMessage.style.display = 'none';
+                
+                        const formData = {
+                            first_name: document.querySelector('input[name="first_name"]').value,
+                            last_name: document.querySelector('input[name="last_name"]').value,
+                            email: document.querySelector('input[name="email"]').value,
+                            password: password,
+                            phone: document.querySelector('input[name="phone"]').value,
+                            DOB: document.querySelector('input[name="DOB"]').value,
+                            gender: document.querySelector('input[name="gender"]').value,
+                            role: "sales_rep" // Assuming the role is fixed as "buyer"
+                        };
+                
+                        axios.post('https://webexe.onrender.com/api/v1/users/signup', formData)
+                            .then(response => {
+                                console.log('Response data:', response.data);
+                                if (response.data.status === 'success') {
+                                    alert('Signup successful!');
+                                } else {
+                                    alert('Signup failed: ' + response.data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                if (error.response) {
+                                    console.error('Error response data:', error.response.data);
+                                    alert('Signup failed: ' + (error.response.data.message || 'Unknown error'));
+                                } else {
+                                    alert('Signup failed: ' + error.message);
+                                }
+                            });
+                    });
+                </script>
+                
                 </div>
             </div>
             </div>
