@@ -147,6 +147,14 @@
                         }
 
 
+                        const passwordPattern = /^(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/;
+                        if (!passwordPattern.test(password)) {
+                            errorMessage.style.display = 'block';
+                            errorMessage.textContent = 'Password must be at least 8 characters long and contain at least one special character.';
+                            return;
+                        }
+
+
                         const formData = {
                             first_name: document.querySelector('input[name="first_name"]').value,
                             last_name: document.querySelector('input[name="last_name"]').value,
