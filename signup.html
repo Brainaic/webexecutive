@@ -169,12 +169,14 @@
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                if (error.response && error.response.data && error.response.data.message) {
-                                    alert('Signup failed: ' + error.response.data.message);
+                                if (error.response) {
+                                    console.error('Error response data:', error.response.data);
+                                    alert('Signup failed: ' + (error.response.data.message || 'Unknown error'));
                                 } else {
                                     alert('Signup failed: ' + error.message);
                                 }
                             });
+                        
                         
                     });
                 </script>
