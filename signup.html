@@ -22,6 +22,53 @@
         color: red;
         display: none;
     }
+    .customModal {
+        display: none; 
+        position: fixed; 
+        z-index: 1; 
+        padding-top: 100px; 
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        overflow: auto; 
+        background-color: rgb(0,0,0); 
+        background-color: rgba(0,0,0,0.4); 
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; 
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    #redirectButton {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    #redirectButton:hover {
+        background-color: #45a049;
+    }
 
 </style>
 </head>
@@ -72,7 +119,7 @@
             <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
-                <form action="#" class="login" id="signupForm" >
+                <form action="#" class="login" id="signupForm">
                     <div style="display: grid; grid-template-columns: auto auto; grid-column-gap: 10px;">
                         <div class="field">
                             <p>First name</p>
@@ -131,30 +178,38 @@
                     <div class="signup-link">Already have an account? <a href="">Log in</a></div>
                     <div class="signup-link">By clicking “Create account” you indicate that you have read and agree to our <a href="../webexecutive/terms.html">terms of service</a> and <a href="../webexecutive/privacy.html">Privacy policy</a></div>
                 </form>
+                
+                <!-- Modal -->
+                <div id="customModal" class="customModal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p id="modalMessage"></p>
+                        <button id="redirectButton" style="display: none;">Go to Login Page</button>
+                    </div>
+                </div>
+                
                 <script>
                     document.getElementById('signupForm').addEventListener('submit', function(event) {
                         event.preventDefault();
-            
+                
                         const password = document.getElementById('password').value;
                         const repeatPassword = document.getElementById('repeatPassword').value;
                         const errorMessage = document.getElementById('errorMessage');
-            
+                
                         if (password !== repeatPassword) {
                             errorMessage.style.display = 'block';
                             return;
                         } else {
                             errorMessage.style.display = 'none';
                         }
-
-
+                
                         const passwordPattern = /^(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/;
                         if (!passwordPattern.test(password)) {
                             errorMessage.style.display = 'block';
                             errorMessage.textContent = 'Password must be at least 8 characters long and contain at least one special character.';
                             return;
                         }
-
-
+                
                         const formData = {
                             first_name: document.querySelector('input[name="first_name"]').value,
                             last_name: document.querySelector('input[name="last_name"]').value,
@@ -165,29 +220,47 @@
                             gender: document.querySelector('input[name="gender"]').value,
                             role: "buyer" // Assuming the role is fixed as "buyer"
                         };
-                        
+                
                         axios.post('https://webexe.onrender.com/api/v1/users/signup', formData)
                             .then(response => {
-                                console.log('Response data:', response.data);
+                                const modal = document.getElementById('customModal');
+                                const modalMessage = document.getElementById('modalMessage');
+                                const redirectButton = document.getElementById('redirectButton');
+                
+                                modal.style.display = 'block';
+                
                                 if (response.data.status === 'success') {
-                                    alert('Signup successful!');
+                                    modalMessage.textContent = 'Signup successful!';
+                                    redirectButton.style.display = 'block';
                                 } else {
-                                    alert('Signup successful: ' + response.data.message);
+                                    modalMessage.textContent = 'Signup successful: ' + response.data.message;
                                 }
                             })
                             .catch(error => {
-                                console.error('Error:', error);
+                                const modal = document.getElementById('customModal');
+                                const modalMessage = document.getElementById('modalMessage');
+                
+                                modal.style.display = 'block';
+                
                                 if (error.response) {
-                                    console.error('Error response data:', error.response.data);
-                                    alert('Signup failed: ' + (error.response.data.message || 'Unknown error'));
+                                    modalMessage.textContent = 'Signup failed: ' + (error.response.data.message || 'Unknown error');
                                 } else {
-                                    alert('Signup failed: ' + error.message);
+                                    modalMessage.textContent = 'Signup failed: ' + error.message;
                                 }
                             });
-                        
-                        
                     });
+                
+                    document.querySelector('.close').onclick = function() {
+                        document.getElementById('customModal').style.display = 'none';
+                    };
+                
+                    document.getElementById('redirectButton').onclick = function() {
+                        window.location.href = './login.html';
+                    };
                 </script>
+                
+              
+                
         
             
                 <form action="#" class="login" id="salesrep">
