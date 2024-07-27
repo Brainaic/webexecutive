@@ -186,7 +186,14 @@
                       </div>
                       <div class="signup-link">Don't have an account? <a href="">Create account</a></div>
                   </form>
-                  
+                  <div id="response-popup" class="popup">
+                    <div class="popup-content">
+                        <h2>Response</h2>
+                        <p id="response-message"></p>
+                        <button id="close-response-popup">Close</button>
+                    </div>
+                </div>
+                
                   <div id="forgot-password-popup" class="popup">
                       <div class="popup-content">
                           <h2>Forgot Password</h2>
@@ -202,41 +209,54 @@
                   </div>
                   
                   <script>
-                    // Show forgot password popup
-                    document.getElementById('forgot-password').addEventListener('click', function() {
-                        document.getElementById('forgot-password-popup').style.display = 'block';
-                    });
-                
-                    // Handle login form submission
-                    document.getElementById('loginForm').addEventListener('submit', function(event) {
-                        event.preventDefault();
-                
-                        const formData = {
-                            email: document.querySelector('input[name="email"]').value,
-                            password: document.querySelector('input[name="password"]').value
-                        };
-                
-                        axios.post('https://webexe.onrender.com/api/v1/users/login', formData)
-                            .then(response => {
-                                console.log('Response data:', response.data);
-                                if (response.data.status === 'success') {
-                                    alert('Login successful!');
-                                    // Redirect to another page or perform additional actions
-                                } else {
-                                    alert('Login failed: ' + response.data.message);
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                if (error.response) {
-                                    console.error('Error response data:', error.response.data);
-                                    alert('Login failed: ' + (error.response.data.message || 'Unknown error'));
-                                } else {
-                                    alert('Login failed: ' + error.message);
-                                }
-                            });
-                    });
-                  </script>
+                      // Show forgot password popup
+                      document.getElementById('forgot-password').addEventListener('click', function() {
+                          document.getElementById('forgot-password-popup').style.display = 'block';
+                      });
+                      
+                      // Handle login form submission
+                      document.getElementById('loginForm').addEventListener('submit', function(event) {
+                          event.preventDefault();
+                      
+                          const formData = {
+                              email: document.querySelector('input[name="email"]').value,
+                              password: document.querySelector('input[name="password"]').value
+                          };
+                      
+                          axios.post('https://webexe.onrender.com/api/v1/users/login', formData)
+                              .then(response => {
+                                  console.log('Response data:', response.data);
+                                  if (response.data.status === 'success') {
+                                      showResponsePopup('Login successful!');
+                                      // Redirect to another page or perform additional actions
+                                  } else {
+                                      showResponsePopup('Login failed: ' + response.data.message);
+                                  }
+                              })
+                              .catch(error => {
+                                  console.error('Error:', error);
+                                  if (error.response) {
+                                      console.error('Error response data:', error.response.data);
+                                      showResponsePopup('Login failed: ' + (error.response.data.message || 'Unknown error'));
+                                  } else {
+                                      showResponsePopup('Login failed: ' + error.message);
+                                  }
+                              });
+                      });
+                      
+                      // Function to show the response popup
+                      function showResponsePopup(message) {
+                          document.getElementById('response-message').innerText = message;
+                          document.getElementById('response-popup').style.display = 'flex';
+                      }
+                      
+                      // Close the response popup
+                      document.getElementById('close-response-popup').addEventListener('click', function() {
+                          document.getElementById('response-popup').style.display = 'none';
+                      });
+                      </script>
+                      
+                 
 
 
 
