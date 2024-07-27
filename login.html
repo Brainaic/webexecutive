@@ -260,7 +260,7 @@
 
 
 
-                    <form action="#" class="signup">
+                    <form  class="signup" id="salesrep">
                       <div class="field">
                         <p>Email Address</p>
                         <input type="text" placeholder="Email Address" required>
@@ -278,8 +278,56 @@
                         <input type="submit" value="Login">
                       </div>
                       <div class="signup-link">Don't have an account? <a href="">Create account</a></div>
-                        
+                      <div id="response-popup" class="popup">
+                        <div class="popup-content">
+                            <h2>Response</h2>
+                            <p id="response-message"></p>
+                            <button id="close-response-popup">Close</button>
+                        </div>
+                    </div>
                     </form>
+                  <script>
+                    document.getElementById('salesrep').addEventListener('submit', function(event) {
+                      event.preventDefault();
+                  
+                      const formData = {
+                          email: document.querySelector('input[name="email"]').value,
+                          password: document.querySelector('input[name="password"]').value
+                      };
+                  
+                      axios.post('https://webexe.onrender.com/api/v1/users/login', formData)
+                          .then(response => {
+                              console.log('Response data:', response.data);
+                              if (response.data.status === 'success') {
+                                  showResponsePopup('Login successful!');
+                                  // Redirect to another page or perform additional actions
+                              } else {
+                                  showResponsePopup('Login successful: ' + response.data.message);
+                              }
+                          })
+                          .catch(error => {
+                              console.error('Error:', error);
+                              if (error.response) {
+                                  console.error('Error response data:', error.response.data);
+                                  showResponsePopup('Login failed: ' + (error.response.data.message || 'Unknown error'));
+                              } else {
+                                  showResponsePopup('Login failed: ' + error.message);
+                              }
+                          });
+                  });
+                  
+                  // Function to show the response popup
+                  function showResponsePopup(message) {
+                      document.getElementById('response-message').innerText = message;
+                      document.getElementById('response-popup').style.display = 'flex';
+                  }
+                  
+                  // Close the response popup
+                  document.getElementById('close-response-popup').addEventListener('click', function() {
+                      document.getElementById('response-popup').style.display = 'none';
+                  });
+                  </script>
+                  
                   
                   </div>
                       <div id="forgot-password-popup1" class="popup1">
