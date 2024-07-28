@@ -194,10 +194,11 @@
                     </div>
                 </div>
                 
-                  <div id="forgot-password-popup" class="popup">
-                      <div class="popup-content">
-                          <h2>Forgot Password</h2>
-                          <br>
+                <div id="forgot-password-popup" class="popup">
+                  <div class="popup-content">
+                      <h2>Forgot Password</h2>
+                      <br>
+                      <div id="forgot-password-form">
                           <p style="font-size: 16px; line-height: 15px;">Enter your email address to reset your<br>password:</p>
                           <br>
                           <p style="color: #081e4b; font-size: 14px; font-weight: 600;">Email address:</p>
@@ -206,13 +207,42 @@
                               <button type="submit">Request OTP</button>
                           </form>
                       </div>
+                      <div id="otp-form" style="display:none;">
+                          <p style="font-size: 16px; line-height: 15px;">Enter the OTP sent to your email:</p>
+                          <br>
+                          <p style="color: #081e4b; font-size: 14px; font-weight: 600;">OTP:</p>
+                          <form id="verifyOtpForm">
+                              <input type="text" id="otp" name="otp" placeholder="Enter OTP" required><br><br>
+                              <button type="submit">Verify OTP</button>
+                          </form>
+                      </div>
                   </div>
-                  
-                  <script>
-                      // Show forgot password popup
-                      document.getElementById('forgot-password').addEventListener('click', function() {
-                          document.getElementById('forgot-password-popup').style.display = 'block';
-                      });
+              </div>
+          
+          
+              <script>
+                  // Show forgot password popup
+                  document.getElementById('forgot-password').addEventListener('click', function() {
+                      document.getElementById('forgot-password-popup').style.display = 'block';
+                  });
+          
+                  // Handle OTP request form submission
+                  document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
+                      event.preventDefault();
+                      // Assuming the OTP request is successful
+                      document.getElementById('forgot-password-form').style.display = 'none';
+                      document.getElementById('otp-form').style.display = 'block';
+                  });
+          
+                  // Handle OTP verification form submission
+                  document.getElementById('verifyOtpForm').addEventListener('submit', function(event) {
+                      event.preventDefault();
+                      // Handle OTP verification logic here
+                      alert('OTP verified successfully!');
+                      // Close the popup after successful verification
+                      document.getElementById('forgot-password-popup').style.display = 'none';
+                  });
+              
                       
                       // Handle login form submission
                       document.getElementById('loginForm').addEventListener('submit', function(event) {
