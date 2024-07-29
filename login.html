@@ -219,6 +219,8 @@
                   </div>
               </div>
           
+              <div id="response-popup" class="popup-message"></div>
+              <div id="overlay" class="popup-overlay"></div>
           
               <script>
                   // Show forgot password popup
@@ -226,21 +228,54 @@
                       document.getElementById('forgot-password-popup').style.display = 'block';
                   });
           
+                  // Function to show popup message
+                  function showPopupMessage(message) {
+                      const popup = document.getElementById('response-popup');
+                      const overlay = document.getElementById('overlay');
+                      popup.textContent = message;
+                      popup.classList.add('active');
+                      overlay.classList.add('active');
+          
+                      setTimeout(() => {
+                          popup.classList.remove('active');
+                          overlay.classList.remove('active');
+                      }, 3000);
+                  }
+          
                   // Handle OTP request form submission
                   document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
                       event.preventDefault();
-                      // Assuming the OTP request is successful
-                      document.getElementById('forgot-password-form').style.display = 'none';
-                      document.getElementById('otp-form').style.display = 'block';
+                      const email = document.getElementById('forgot-email').value;
+          
+                      axios.post('https://webexe.onrender.com/api/v1/users/password', { email })
+                          .then(response => {
+                              // Assuming the OTP request is successful
+                              document.getElementById('forgot-password-form').style.display = 'none';
+                              document.getElementById('otp-form').style.display = 'block';
+                              showPopupMessage('OTP request successful! Check your email.');
+                          })
+                          .catch(error => {
+                              console.error('Error requesting OTP:', error);
+                              showPopupMessage('Error requesting OTP. Please try again.');
+                          });
                   });
           
                   // Handle OTP verification form submission
                   document.getElementById('verifyOtpForm').addEventListener('submit', function(event) {
                       event.preventDefault();
-                      // Handle OTP verification logic here
-                      alert('OTP verified successfully!');
-                      // Close the popup after successful verification
-                      document.getElementById('forgot-password-popup').style.display = 'none';
+                      const otp = document.getElementById('otp').value;
+                      const email = document.getElementById('forgot-email').value; // Using the same email for OTP verification
+          
+                      axios.post(`https://webexe.onrender.com/api/v1/users/password/confirm?email=${email}`, { otp })
+                          .then(response => {
+                              showPopupMessage('OTP verified successfully!');
+                              // Close the popup after successful verification
+                              document.getElementById('forgot-password-popup').style.display = 'none';
+                          })
+                          .catch(error => {
+                              console.error('Error verifying OTP:', error);
+                              showPopupMessage('Error verifying OTP. Please try again.');
+                          });
                   });
               
                       
