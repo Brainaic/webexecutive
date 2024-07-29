@@ -268,13 +268,13 @@
           
                       axios.post(`https://webexe.onrender.com/api/v1/users/password/confirm?email=${email}`, { otp })
                           .then(response => {
-                              showPopupMessage('OTP verified successfully!');
+                            alert('OTP verified successfully!');
                               // Close the popup after successful verification
                               document.getElementById('forgot-password-popup').style.display = 'none';
                           })
                           .catch(error => {
                               console.error('Error verifying OTP:', error);
-                              showPopupMessage('Error verifying OTP. Please try again.');
+                              alert('Error verifying OTP. Please try again.');
                           });
                   });
               
