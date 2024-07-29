@@ -1,246 +1,304 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-4">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>WEB EXECUTIVE-Login to your account</title>
-    <link rel="stylesheet" href="./css/about.css">
-    <script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
-    <link rel="icon" type="image/x-icon" href="../webexecutive/img/faviconnn.png">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <title>WEB EXECUTIVE-Login to your account</title>
+        <link rel="stylesheet" href="./css/about.css">
+        <script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+        <link rel="icon" type="image/x-icon" href="../webexecutive/img/faviconnn.png">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <style>
-        .popup {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #081e4b7a;
-            display: none;
-        }
-        
-        .popup-content {
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            width: 520px;
-            padding: 32px 24px 32px 24px;
-        }
+<style>
+  .popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #081e4b7a;
+    display: none;
+}
 
-        .popup-content h2 {
-            margin-top: 0;
-            font-size: 18px;
-            color: #081e4b;
-        }
+.popup-content {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 520px;
+    padding: 32px 24px 32px 24px;
+}
 
-        .popup-content input {
-            width: 100%;
-            outline: none;
-            padding-left: 15px;
-            border-radius: 8px;
-            border: 1px solid #ededf3;
-            border-bottom-width: 2px;
-            font-size: 17px;
-            transition: all 0.3s ease;
-            height: 48px;
-        }
+.popup-content h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #081e4b;
+}
 
-        .popup-content button {
-            float: right;
-            background: #2d3198;
-            padding: 8px 12px 8px 12px;
-            border-radius: 8px;
-            color: #fff;
-            border: 1px solid #081e4b;
-        }
+.popup-content input {
+    width: 100%;
+    outline: none;
+    padding-left: 15px;
+    border-radius: 8px;
+    border: 1px solid #ededf3;
+    border-bottom-width: 2px;
+    font-size: 17px;
+    transition: all 0.3s ease;
+    height: 48px;
+}
 
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #081e4b7a;
-            display: none;
-            z-index: 9998;
-        }
+.popup-content button {
+    float: right;
+    background: #2d3198;
+    padding: 8px 12px 8px 12px;
+    border-radius: 8px;
+    color: #fff;
+    border: 1px solid #081e4b;
+}
 
-        .popup-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            z-index: 9999;
-            display: none;
-        }
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #081e4b7a;
+    display: none;
+    z-index: 9998;
+}
 
-        .popup-message.active,
-        .popup-overlay.active {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <div class="scroll-up-btn">
+.popup-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    z-index: 9999;
+    display: none;
+}
+
+.popup-message.active,
+.popup-overlay.active {
+    display: block;
+}
+
+  .popup1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #081e4b7a;
+    display: none;
+  }
+  
+  .popup-content1 {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 520px;
+    padding: 32px 24px 32px 24px;
+  }
+  
+  .popup-content1 h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #081e4b;
+  }
+  .popup-content1 input{
+    height: 48px;
+        width: 100%;
+        outline: none;
+        padding-left: 15px;
+        border-radius: 8px;
+        border: 1px solid #ededf3;
+        border-bottom-width: 2px;
+        font-size: 17px;
+        transition: all 0.3s ease;
+  }
+  .popup-content1 button{
+    float: right;
+    background: #2d3198;
+    padding: 8px 12px 8px 12px;
+    border-radius: 8px;
+    color: #fff;
+    border: 1px solid #081e4b;
+}
+
+</style>
+    </head>
+    <body>
+        <div class="scroll-up-btn">
         <i class="fas fa-angle-up"></i>
-    </div>
-    <div style="background-color: #e2eefe;">
+        </div>
+        <div style="background-color: #e2eefe;">
         <nav class="navbar">
-            <div class="max-width">
-                <div class="logo"><a href="./index.html"><img src="./img/image 7.png" style="width: 10rem;"></a></div>
-                <ul class="menu">
-                    <li><a href="#" class="menu-btn">About Us</a></li>
-                    <li><a href="./contact.html" class="menu-btn">Contact</a></li>
-                    <li><a href="./FAQ.html" class="menu-btn">FAQ</a></li>
-                    <li><a href="./signup.html" class="menu-btn" style="background: #2d3198; color: white; padding:10px; border-radius:6px;">Get Started</a></li>
-                </ul>
-                <div class="menu-btn">
-                    <i class="fas fa-bars" style=" background: #2d3198;
-                    padding: 8px 12px 8px 12px;
-                    border-radius: 3px;"></i>
-                </div>
-            </div>
+        <div class="max-width">
+        <div class="logo"><a href="./index.html"><img src="./img/image 7.png" style="width: 10rem;"></div></a>
+        <ul class="menu">
+        <li><a href="#" class="menu-btn">About Us</a></li>     
+        <li><a href="./contact.html" class="menu-btn">Contact</a></li>
+        <li><a href="./FAQ.html" class="menu-btn">FAQ</a></li>
+        <li><a href="./signup.html" class="menu-btn" style="background: #2d3198; color: white; padding:10px; border-radius:6px;">Get Started</a></li>
+        </ul>
+        <div class="menu-btn">
+        <i class="fas fa-bars" style=" background: #2d3198;
+        padding: 8px 12px 8px 12px;
+        border-radius: 3px;"></i>
+        </div>
+        </div>
         </nav>
 
-        <section style="display: grid; height: 100%; width: 100%; place-items: center;">
+
+
+        <section style="display: grid;
+        height: 100%;
+        width: 100%;
+        place-items: center;">
             <div class="wrapper">
                 <div class="title-text">
-                    <div class="title login">
-                        <p style="font-size: 16px; font-weight:400;">Welcome back!</p>
-                        <br> Login to your account
-                    </div>
-                    <div class="title signup">
-                        <p style="font-size: 16px; font-weight:400;">Welcome back!</p>
-                        <br> Login to your account
-                    </div>
+                  <div class="title login">
+                    <p style="font-size: 16px; font-weight:400;">Welcome back!</p>
+                    <br>
+                    Login to your account</div>
+                  <div class="title signup"> <p style="font-size: 16px; font-weight:400;">Welcome back!</p>
+                    <br>
+                    Login to your account</div>
                 </div>
                 <div class="form-container">
-                    <div class="slide-controls">
-                        <input type="radio" name="slide" id="login" checked>
-                        <input type="radio" name="slide" id="signup">
-                        <label for="login" class="slide login">Buyer</label>
-                        <label for="signup" class="slide signup">Sales rep</label>
-                        <div class="slider-tab"></div>
+                  <div class="slide-controls">
+                    <input type="radio" name="slide" id="login" checked>
+                    <input type="radio" name="slide" id="signup">
+                    <label for="login" class="slide login">Buyer</label>
+                    <label for="signup" class="slide signup">Sales rep</label>
+                    <div class="slider-tab"></div>
+                  </div>
+                  <div class="form-inner">
+                    
+                    <form class="login" id="loginForm">
+                      <div class="field">
+                          <p>Email Address</p>
+                          <input type="text" placeholder="Email Address" name="email" required>
+                      </div>
+                      <br>
+                      <div class="field">
+                          <p>Password</p>
+                          <input type="password" placeholder="Password" name="password" required>
+                      </div>
+                      <br><br>
+                      <div class="pass-link"><a id="forgot-password">Forgot password?</a></div>
+                      <br>
+                      <div class="field btn">
+                          <div class="btn-layer"></div>
+                          <input type="submit" value="Login">
+                      </div>
+                      <div class="signup-link">Don't have an account? <a href="">Create account</a></div>
+                  </form>
+                  <div id="response-popup" class="popup">
+                    <div class="popup-content">
+                        <h2>Response</h2>
+                        <p id="response-message"></p>
+                        <button id="close-response-popup">Close</button>
                     </div>
-                    <div class="form-inner">
-                        <form class="login" id="loginForm">
-                            <div class="field">
-                                <p>Email Address</p>
-                                <input type="text" placeholder="Email Address" name="email" required>
-                            </div>
-                            <br>
-                            <div class="field">
-                                <p>Password</p>
-                                <input type="password" placeholder="Password" name="password" required>
-                            </div>
-                            <br><br>
-                            <div class="pass-link"><a id="forgot-password">Forgot password?</a></div>
-                            <br>
-                            <div class="field btn">
-                                <div class="btn-layer"></div>
-                                <input type="submit" value="Login">
-                            </div>
-                            <div class="signup-link">Don't have an account? <a href="">Create account</a></div>
-                        </form>
-                    </div>
                 </div>
-            </div>
-        </section>
-
-        <div id="forgot-password-popup" class="popup">
-            <div class="popup-content">
-                <h2>Forgot Password</h2>
-                <br>
-                <div id="forgot-password-form">
-                    <p style="font-size: 16px; line-height: 15px;">Enter your email address to reset your<br>password:</p>
-                    <br>
-                    <p style="color: #081e4b; font-size: 14px; font-weight: 600;">Email address:</p>
-                    <form id="forgotPasswordForm">
-                        <input type="email" id="forgot-email" name="email" placeholder="Email address" required><br><br>
-                        <button type="submit">Request OTP</button>
-                    </form>
-                </div>
-                <div id="otp-form" style="display:none;">
-                    <p style="font-size: 16px; line-height: 15px;">Enter the OTP sent to your email:</p>
-                    <br>
-                    <p style="color: #081e4b; font-size: 14px; font-weight: 600;">OTP:</p>
-                    <form id="verifyOtpForm">
-                        <input type="text" id="otp" name="otp" placeholder="Enter OTP" required><br><br>
-                        <button type="submit">Verify OTP</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div id="response-popup" class="popup-message"></div>
-        <div id="overlay" class="popup-overlay"></div>
-
-        <script>
-            // Show forgot password popup
-            document.getElementById('forgot-password').addEventListener('click', function() {
-                document.getElementById('forgot-password-popup').style.display = 'block';
-            });
-
-            // Function to show popup message
-            function showPopupMessage(message) {
-                const popup = document.getElementById('response-popup');
-                const overlay = document.getElementById('overlay');
-                popup.textContent = message;
-                popup.classList.add('active');
-                overlay.classList.add('active');
-
-                setTimeout(() => {
-                    popup.classList.remove('active');
-                    overlay.classList.remove('active');
-                }, 3000);
-            }
-
-            // Handling forgot password form submission
-            document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('forgot-email').value;
-                axios.post('/api/send-otp', { email })
-                    .then(response => {
-                        document.getElementById('forgot-password-form').style.display = 'none';
-                        document.getElementById('otp-form').style.display = 'block';
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        showPopupMessage('Failed to send OTP. Please try again.');
-                    });
-            });
-
-            // Handling OTP verification form submission
-            document.getElementById('verifyOtpForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const otp = document.getElementById('otp').value;
-                axios.post('/api/verify-otp', { otp })
-                    .then(response => {
-                        showPopupMessage('OTP verified successfully. You can now reset your password.');
-                        document.getElementById('forgot-password-popup').style.display = 'none';
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        showPopupMessage('Invalid OTP. Please try again.');
-                    });
-            });
+                
+                <div id="forgot-password-popup" class="popup">
+                  <div class="popup-content">
+                      <h2>Forgot Password</h2>
+                      <br>
+                      <div id="forgot-password-form">
+                          <p style="font-size: 16px; line-height: 15px;">Enter your email address to reset your<br>password:</p>
+                          <br>
+                          <p style="color: #081e4b; font-size: 14px; font-weight: 600;">Email address:</p>
+                          <form id="forgotPasswordForm">
+                              <input type="email" id="forgot-email" name="email" placeholder="Email address" required><br><br>
+                              <button type="submit">Request OTP</button>
+                          </form>
+                      </div>
+                      <div id="otp-form" style="display:none;">
+                          <p style="font-size: 16px; line-height: 15px;">Enter the OTP sent to your email:</p>
+                          <br>
+                          <p style="color: #081e4b; font-size: 14px; font-weight: 600;">OTP:</p>
+                          <form id="verifyOtpForm">
+                              <input type="text" id="otp" name="otp" placeholder="Enter OTP" required><br><br>
+                              <button type="submit">Verify OTP</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          
+              <div id="response-popup" class="popup-message"></div>
+              <div id="overlay" class="popup-overlay"></div>
+          
+              <script>
+                  // Show forgot password popup
+                  document.getElementById('forgot-password').addEventListener('click', function() {
+                    document.getElementById('forgot-password-popup').style.display = 'block';
+                });
+    
+                // Function to show popup message
+                function showPopupMessage(message) {
+                    const popup = document.getElementById('response-popup');
+                    const overlay = document.getElementById('overlay');
+                    popup.textContent = message;
+                    popup.classList.add('active');
+                    overlay.classList.add('active');
+    
+                    setTimeout(() => {
+                        popup.classList.remove('active');
+                        overlay.classList.remove('active');
+                    }, 3000);
+                }
+    
+                // Handling forgot password form submission
+                document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('forgot-email').value;
+                    axios.post('/api/send-otp', { email })
+                        .then(response => {
+                            document.getElementById('forgot-password-form').style.display = 'none';
+                            document.getElementById('otp-form').style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            showPopupMessage('Failed to send OTP. Please try again.');
+                        });
+                });
+    
+                // Handling OTP verification form submission
+                document.getElementById('verifyOtpForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const otp = document.getElementById('otp').value;
+                    axios.post('/api/verify-otp', { otp })
+                        .then(response => {
+                            showPopupMessage('OTP verified successfully. You can now reset your password.');
+                            document.getElementById('forgot-password-popup').style.display = 'none';
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            showPopupMessage('Invalid OTP. Please try again.');
+                        });
+                });
+              
                       
                       // Handle login form submission
                       document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -284,7 +342,7 @@
                       });
                       </script>
                       
-                 </div>
+                 
 
 
 
