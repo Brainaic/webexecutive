@@ -247,6 +247,8 @@
           
               <div id="response-popup" class="popup-message"></div>
               <div id="overlay" class="popup-overlay"></div>
+            
+              <div id="loader" class="loader" style="display: none;"></div>
           
               <script>
                 // Show forgot password popup
@@ -323,7 +325,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', function
   const email = document.getElementById('forgot-email').value;
   showLoader(true);
 
-  axios.patch('https://webexe.onrender.com/api/v1/users/password', { email, password: newPassword })
+  axios.patch('https://webexe.onrender.com/api/v1/users/password?email=test@test.co', { email, password: newPassword })
       .then(response => {
           showLoader(false);
           showPopupMessage('Password reset successful! You can now log in with your new password.');
