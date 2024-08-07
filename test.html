@@ -3,97 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Translator</title>
+    <title>Tic Tac Toe</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
         }
 
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .tic-tac-toe-container {
             text-align: center;
-            width: 300px;
         }
 
-        textarea {
-            width: 100%;
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
             height: 100px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            resize: none;
+            background-color: #fff;
+            border: 2px solid #333;
+            font-size: 2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        select, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        .cell:hover {
+            background-color: #f0f0f0;
         }
 
-        #translated-text {
-            margin-top: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            min-height: 50px;
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Language Translator</h1>
-        <textarea id="input-text" placeholder="Enter text to translate"></textarea>
-        <select id="language-select">
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="zh">Chinese</option>
-            <!-- Add more languages as needed -->
-        </select>
-        <button id="translate-button">Translate</button>
-        <div id="translated-text"></div>
+    <div class="tic-tac-toe-container">
+        <h1>Tic Tac Toe</h1>
+        <div class="board" id="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+        <button id="resetButton">Reset Game</button>
+        <div class="status" id="status"></div>
     </div>
-    <script>
-        document.getElementById('translate-button').addEventListener('click', function() {
-            const inputText = document.getElementById('input-text').value;
-            const language = document.getElementById('language-select').value;
 
-            // Check if input text is not empty
-            if (inputText.trim() === "") {
-                alert("Please enter some text to translate.");
-                return;
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cells = document.querySelectorAll(".cell");
+            const statusDisplay = document.getElementById("status");
+            const resetButton = document.getElementById("resetButton");
+
+            let currentPlayer = "X";
+            let board = ["", "", "", "", "", "", "", "", ""];
+            let gameActive = true;
+
+            const winningConditions = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6],
+            ];
+
+            function handleCellPlayed(clickedCell, clickedCellIndex) {
+                board[clickedCellIndex] = currentPlayer;
+                clickedCell.innerHTML = currentPlayer;
             }
 
-            fetch('https://libretranslate.com/translate', {
-                method: 'POST',
-                body: JSON.stringify({
-                    q: inputText,
-                    source: "en",
-                    target: language,
-                    format: "text"
-                }),
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('translated-text').innerText = data.translatedText;
-            })
-            .catch(error => console.error('Error:', error));
+            function handlePlayerChange() {
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+                statusDisplay.innerHTML = `${currentPlayer}'s turn`;
+            }
+
+            function handleResultValidation() {
+                let roundWon = false;
+                for (let i = 0; i < winningConditions.length; i++) {
+                    const winCondition = winningConditions[i];
+                    let a = board[winCondition[0]];
+                    let b = board[winCondition[1]];
+                    let c = board[winCondition[2]];
+                    if (a === "" || b === "" || c === "") {
+                        continue;
+                    }
+                    if (a === b && b === c) {
+                        roundWon = true;
+                        break;
+                    }
+                }
+
+                if (roundWon) {
+                    statusDisplay.innerHTML = `${currentPlayer} wins!`;
+                    gameActive = false;
+                    return;
+                }
+
+                let roundDraw = !board.includes("");
+                if (roundDraw) {
+                    statusDisplay.innerHTML = `Game ended in a draw!`;
+                    gameActive = false;
+                    return;
+                }
+
+                handlePlayerChange();
+            }
+
+            function handleCellClick(event) {
+                const clickedCell = event.target;
+                const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
+
+                if (board[clickedCellIndex] !== "" || !gameActive) {
+                    return;
+                }
+
+                handleCellPlayed(clickedCell, clickedCellIndex);
+                handleResultValidation();
+            }
+
+            function handleResetGame() {
+                currentPlayer = "X";
+                board = ["", "", "", "", "", "", "", "", ""];
+                gameActive = true;
+                statusDisplay.innerHTML = `${currentPlayer}'s turn`;
+                cells.forEach(cell => (cell.innerHTML = ""));
+            }
+
+            cells.forEach(cell => cell.addEventListener("click", handleCellClick));
+            resetButton.addEventListener("click", handleResetGame);
+
+            statusDisplay.innerHTML = `${currentPlayer}'s turn`;
         });
     </script>
+
+    <p>The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.</p>
+    <address>
+        Written by John Doe.<br>
+        Visit us at:<br>
+        Example.com<br>
+        Box 564, Disneyland<br>
+        USA
+        </address>
+
+        <p>Here is a quote from WWF's website:</p>
+<blockquote cite="http://www.worldwildlife.org/who/index.html">
+For 60 years, WWF has worked to help people and nature thrive. As the world's leading conservation organization, WWF works in nearly 100 countries. At every level, we collaborate with people around the world to develop and deliver innovative solutions that protect communities, wildlife, and the places in which they live.
+</blockquote>
 </body>
 </html>
