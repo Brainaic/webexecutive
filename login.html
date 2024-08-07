@@ -117,6 +117,22 @@
     border: 1px solid #081e4b;
 }
 
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 </style>
     </head>
     <body>
@@ -216,6 +232,16 @@
                               <button type="submit">Verify OTP</button>
                           </form>
                       </div>
+
+                      <div id="reset-password-form" style="display:none;">
+                        <p style="font-size: 16px; line-height: 15px;">Enter your new password:</p>
+                        <br>
+                        <p style="color: #081e4b; font-size: 14px; font-weight: 600;">New Password:</p>
+                        <form id="resetPasswordForm">
+                            <input type="password" id="new-password" name="new-password" placeholder="New Password" required><br><br>
+                            <button type="submit">Reset Password</button>
+                        </form>
+                    </div>
                   </div>
               </div>
           
@@ -223,103 +249,137 @@
               <div id="overlay" class="popup-overlay"></div>
           
               <script>
-                  // Show forgot password popup
-                  document.getElementById('forgot-password').addEventListener('click', function() {
-                      document.getElementById('forgot-password-popup').style.display = 'block';
-                  });
-          
-                  // Function to show popup message
-                  function showPopupMessage(message) {
-                      const popup = document.getElementById('response-popup');
-                      const overlay = document.getElementById('overlay');
-                      popup.textContent = message;
-                      popup.classList.add('active');
-                      overlay.classList.add('active');
-          
-                      setTimeout(() => {
-                          popup.classList.remove('active');
-                          overlay.classList.remove('active');
-                      }, 3000);
-                  }
-          
-                  // Handle OTP request form submission
-                  document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
-                      event.preventDefault();
-                      const email = document.getElementById('forgot-email').value;
-          
-                      axios.post('https://webexe.onrender.com/api/v1/users/password', { email })
-                          .then(response => {
-                              // Assuming the OTP request is successful
-                              document.getElementById('forgot-password-form').style.display = 'none';
-                              document.getElementById('otp-form').style.display = 'block';
-                              showPopupMessage('OTP request successful! Check your email.');
-                          })
-                          .catch(error => {
-                              console.error('Error requesting OTP:', error);
-                              showPopupMessage('Error requesting OTP. Please try again.');
-                          });
-                  });
-          
-                  // Handle OTP verification form submission
-                  document.getElementById('verifyOtpForm').addEventListener('submit', function(event) {
-                      event.preventDefault();
-                      const otp = document.getElementById('otp').value;
-                      const email = document.getElementById('forgot-email').value; // Using the same email for OTP verification
-          
-                      axios.post(`https://webexe.onrender.com/api/v1/users/password/confirm?email=${email}`, { otp })
-                          .then(response => {
-                            alert('OTP verified successfully!');
-                              // Close the popup after successful verification
-                              document.getElementById('forgot-password-popup').style.display = 'none';
-                          })
-                          .catch(error => {
-                              console.error('Error verifying OTP:', error);
-                              alert('Error verifying OTP. Please try again.');
-                          });
-                  });
-              
-                      
-                      // Handle login form submission
-                      document.getElementById('loginForm').addEventListener('submit', function(event) {
-                          event.preventDefault();
-                      
-                          const formData = {
-                              email: document.querySelector('input[name="email"]').value,
-                              password: document.querySelector('input[name="password"]').value
-                          };
-                      
-                          axios.post('https://webexe.onrender.com/api/v1/users/login', formData)
-                              .then(response => {
-                                  console.log('Response data:', response.data);
-                                  if (response.data.status === 'success') {
-                                      showResponsePopup('Login successful!');
-                                      // Redirect to another page or perform additional actions
-                                  } else {
-                                      showResponsePopup('Login successful: ' + response.data.message);
-                                  }
-                              })
-                              .catch(error => {
-                                  console.error('Error:', error);
-                                  if (error.response) {
-                                      console.error('Error response data:', error.response.data);
-                                      showResponsePopup('Login failed: ' + (error.response.data.message || 'Unknown error'));
-                                  } else {
-                                      showResponsePopup('Login failed: ' + error.message);
-                                  }
-                              });
-                      });
-                      
-                      // Function to show the response popup
-                      function showResponsePopup(message) {
-                          document.getElementById('response-message').innerText = message;
-                          document.getElementById('response-popup').style.display = 'flex';
-                      }
-                      
-                      // Close the response popup
-                      document.getElementById('close-response-popup').addEventListener('click', function() {
-                          document.getElementById('response-popup').style.display = 'none';
-                      });
-                      </script>
+                // Show forgot password popup
+             // Show forgot password popup
+document.getElementById('forgot-password').addEventListener('click', function() {
+  document.getElementById('forgot-password-popup').style.display = 'block';
+});
+
+// Function to show popup message
+function showPopupMessage(message) {
+  const popup = document.getElementById('response-popup');
+  const overlay = document.getElementById('overlay');
+  document.getElementById('response-message').textContent = message;
+  popup.classList.add('active');
+  overlay.classList.add('active');
+
+  setTimeout(() => {
+      popup.classList.remove('active');
+      overlay.classList.remove('active');
+  }, 3000);
+}
+
+// Function to show loader
+function showLoader(show) {
+  const loader = document.getElementById('loader');
+  loader.style.display = show ? 'block' : 'none';
+}
+
+// Handle OTP request form submission
+document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const email = document.getElementById('forgot-email').value;
+  showLoader(true);
+
+  axios.post('https://webexe.onrender.com/api/v1/users/password', { email })
+      .then(response => {
+          showLoader(false);
+          document.getElementById('forgot-password-form').style.display = 'none';
+          document.getElementById('otp-form').style.display = 'block';
+          showPopupMessage('OTP request successful! Check your email.');
+      })
+      .catch(error => {
+          showLoader(false);
+          console.error('Error requesting OTP:', error);
+          showPopupMessage('Error requesting OTP. Please try again.');
+      });
+});
+
+// Handle OTP verification form submission
+document.getElementById('verifyOtpForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const otp = document.getElementById('otp').value;
+  const email = document.getElementById('forgot-email').value; // Using the same email for OTP verification
+  showLoader(true);
+
+  axios.post(`https://webexe.onrender.com/api/v1/users/password/confirm?email=${email}`, { otp })
+      .then(response => {
+          showLoader(false);
+          document.getElementById('otp-form').style.display = 'none';
+          document.getElementById('reset-password-form').style.display = 'block';
+          showPopupMessage('OTP verified successfully! Please reset your password.');
+      })
+      .catch(error => {
+          showLoader(false);
+          console.error('Error verifying OTP:', error);
+          showPopupMessage('Error verifying OTP. Please try again.');
+      });
+});
+
+// Handle password reset form submission
+document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const newPassword = document.getElementById('new-password').value;
+  const email = document.getElementById('forgot-email').value;
+  showLoader(true);
+
+  axios.patch('https://webexe.onrender.com/api/v1/users/password', { email, password: newPassword })
+      .then(response => {
+          showLoader(false);
+          showPopupMessage('Password reset successful! You can now log in with your new password.');
+          document.getElementById('forgot-password-popup').style.display = 'none';
+      })
+      .catch(error => {
+          showLoader(false);
+          console.error('Error resetting password:', error);
+          showPopupMessage('Error resetting password. Please try again.');
+      });
+});
+
+// Handle login form submission
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const formData = {
+      email: document.querySelector('input[name="email"]').value,
+      password: document.querySelector('input[name="password"]').value
+  };
+  showLoader(true);
+
+  axios.post('https://webexe.onrender.com/api/v1/users/login', formData)
+      .then(response => {
+          showLoader(false);
+          if (response.data.status === 'success') {
+              showResponsePopup('Login successful!');
+              // Redirect to another page or perform additional actions
+              window.location.href = 'dashboard.html'; // Update this URL to your dashboard page
+          } else {
+              showResponsePopup('Login failed: ' + response.data.message);
+          }
+      })
+      .catch(error => {
+          showLoader(false);
+          console.error('Error:', error);
+          if (error.response) {
+              console.error('Error response data:', error.response.data);
+              showResponsePopup('Login failed: ' + (error.response.data.message || 'Unknown error'));
+          } else {
+              showResponsePopup('Login failed: ' + error.message);
+          }
+      });
+});
+
+// Function to show the response popup
+function showResponsePopup(message) {
+  document.getElementById('response-message').innerText = message;
+  document.getElementById('response-popup').style.display = 'flex';
+}
+
+// Close the response popup
+document.getElementById('close-response-popup').addEventListener('click', function() {
+  document.getElementById('response-popup').style.display = 'none';
+});
+
+            </script>
                       
                  
 
