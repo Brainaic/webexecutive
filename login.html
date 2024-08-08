@@ -316,14 +316,6 @@
               </div>
           
               <div id="response-popup" class="popup-message"></div>
-
-              <div id="response-popup" class="response-popup">
-                <div class="popup-content">
-                    <p id="response-message" class="response-popup-message"></p>
-                    <button id="close-response-popup" class="response-popup-button">Close</button>
-                </div>
-            </div>
-            <div id="overlay" class="response-popup-overlay"></div>
               <div id="overlay" class="popup-overlay"></div>
             
               <div id="loader" class="loader" style="display: none;"></div>
@@ -362,12 +354,12 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', functio
           showLoader(false);
           document.getElementById('forgot-password-form').style.display = 'none';
           document.getElementById('otp-form').style.display = 'block';
-          showPopupMessage('OTP request successful! Check your email.');
+          showResponsePopup('OTP request successful! Check your email.');
       })
       .catch(error => {
           showLoader(false);
           console.error('Error requesting OTP:', error);
-          showPopupMessage('Error requesting OTP. Please try again.');
+          showResponsePopup('Error requesting OTP. Please try again.');
       });
 });
 
@@ -383,12 +375,12 @@ document.getElementById('verifyOtpForm').addEventListener('submit', function(eve
           showLoader(false);
           document.getElementById('otp-form').style.display = 'none';
           document.getElementById('reset-password-form').style.display = 'block';
-          showPopupMessage('OTP verified successfully! Please reset your password.');
+          showResponsePopup('OTP verified successfully! Please reset your password.');
       })
       .catch(error => {
           showLoader(false);
           console.error('Error verifying OTP:', error);
-          showPopupMessage('Error verifying OTP. Please try again.');
+          showResponsePopup('Error verifying OTP. Please try again.');
       });
 });
 
@@ -402,13 +394,13 @@ document.getElementById('resetPasswordForm').addEventListener('submit', function
   axios.patch('https://webexe.onrender.com/api/v1/users/password?email', { email, password: newPassword })
       .then(response => {
           showLoader(false);
-          showPopupMessage('Password reset successful! You can now log in with your new password.');
+          showResponsePopup('Password reset successful! You can now log in with your new password.');
           document.getElementById('forgot-password-popup').style.display = 'none';
       })
       .catch(error => {
           showLoader(false);
           console.error('Error resetting password:', error);
-          showPopupMessage('Error resetting password. Please try again.');
+          showResponsePopup('Error resetting password. Please try again.');
       });
 });
 
@@ -428,7 +420,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
               showResponsePopup('Login successful!');
               window.location.href = 'dashboard.html'; // Update this URL to your dashboard page
           } else {
-              showResponsePopup('Login failed: ' + response.data.message);
+              showResponsePopup('Login successful: ' + response.data.message);
+              window.location.href = 'dashboard.html';
           }
       })
       .catch(error => {
