@@ -354,12 +354,12 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', functio
           showLoader(false);
           document.getElementById('forgot-password-form').style.display = 'none';
           document.getElementById('otp-form').style.display = 'block';
-          showResponsePopup('OTP request successful! Check your email.');
+          showPopupMessage('OTP request successful! Check your email.');
       })
       .catch(error => {
           showLoader(false);
           console.error('Error requesting OTP:', error);
-          showResponsePopup('Error requesting OTP. Please try again.');
+          showPopupMessage('Error requesting OTP. Please try again.');
       });
 });
 
@@ -375,12 +375,12 @@ document.getElementById('verifyOtpForm').addEventListener('submit', function(eve
           showLoader(false);
           document.getElementById('otp-form').style.display = 'none';
           document.getElementById('reset-password-form').style.display = 'block';
-          showResponsePopup('OTP verified successfully! Please reset your password.');
+          showPopupMessage('OTP verified successfully! Please reset your password.');
       })
       .catch(error => {
           showLoader(false);
           console.error('Error verifying OTP:', error);
-          showResponsePopup('Error verifying OTP. Please try again.');
+          showPopupMessage('Error verifying OTP. Please try again.');
       });
 });
 
@@ -394,13 +394,13 @@ document.getElementById('resetPasswordForm').addEventListener('submit', function
   axios.patch('https://webexe.onrender.com/api/v1/users/password?email', { email, password: newPassword })
       .then(response => {
           showLoader(false);
-          showResponsePopup('Password reset successful! You can now log in with your new password.');
+          showPopupMessage('Password reset successful! You can now log in with your new password.');
           document.getElementById('forgot-password-popup').style.display = 'none';
       })
       .catch(error => {
           showLoader(false);
           console.error('Error resetting password:', error);
-          showResponsePopup('Error resetting password. Please try again.');
+          showPopupMessage('Error resetting password. Please try again.');
       });
 });
 
@@ -421,7 +421,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
               window.location.href = 'dashboard.html'; // Update this URL to your dashboard page
           } else {
               showResponsePopup('Login successful: ' + response.data.message);
-              window.location.href = 'dashboard.html';
+                 window.location.href = 'dashboard.html';
           }
       })
       .catch(error => {
