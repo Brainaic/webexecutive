@@ -326,10 +326,10 @@ document.getElementById('verifyOtpForm').addEventListener('submit', function(eve
 document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
   event.preventDefault();
   const newPassword = document.getElementById('new-password').value;
-  const email = document.getElementById('forgot-email').value;
+  const email = document.getElementById('forgot-email').value; 
   showLoader(true);
 
-  axios.patch('https://webexe.onrender.com/api/v1/users/password', { email, password: newPassword })
+  axios.patch('https://webexe.onrender.com/api/v1/users/password?email', { email, password: newPassword })
       .then(response => {
           showLoader(false);
           showPopupMessage('Password reset successful! You can now log in with your new password.');
