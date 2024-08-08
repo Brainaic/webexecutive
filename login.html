@@ -258,16 +258,9 @@
               <div id="loader" class="loader" style="display: none;"></div>
           
               <script>
-                // Show forgot password popup
-             // Show forgot password popup
-// Function to show loader
-function showLoader(show) {
-  const loader = document.getElementById('loader');
-  loader.style.display = show ? 'block' : 'none';
-}
-
-// Function to show popup messages
+       // Function to show popup messages
 function showPopupMessage(message) {
+  console.log('Popup message triggered:', message);  // Debug log
   const popup = document.getElementById('response-popup');
   const overlay = document.getElementById('overlay');
   document.getElementById('response-message').textContent = message;
@@ -280,6 +273,12 @@ function showPopupMessage(message) {
   }, 3000);
 }
 
+// Function to show loader
+function showLoader(show) {
+  const loader = document.getElementById('loader');
+  loader.style.display = show ? 'block' : 'none';
+}
+
 // Handle OTP request form submission
 document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
   event.preventDefault();
@@ -288,14 +287,15 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', functio
 
   axios.post('https://webexe.onrender.com/api/v1/users/password', { email })
       .then(response => {
+          console.log('OTP request response:', response);  // Debug log
           showLoader(false);
           document.getElementById('forgot-password-form').style.display = 'none';
           document.getElementById('otp-form').style.display = 'block';
           showPopupMessage('OTP request successful! Check your email.');
       })
       .catch(error => {
+          console.log('Error requesting OTP:', error);  // Debug log
           showLoader(false);
-          console.error('Error requesting OTP:', error);
           showPopupMessage('Error requesting OTP. Please try again.');
       });
 });
@@ -309,14 +309,15 @@ document.getElementById('verifyOtpForm').addEventListener('submit', function(eve
 
   axios.post(`https://webexe.onrender.com/api/v1/users/password/confirm?email=${email}`, { otp })
       .then(response => {
+          console.log('OTP verification response:', response);  // Debug log
           showLoader(false);
           document.getElementById('otp-form').style.display = 'none';
           document.getElementById('reset-password-form').style.display = 'block';
           showPopupMessage('OTP verified successfully! Please reset your password.');
       })
       .catch(error => {
+          console.log('Error verifying OTP:', error);  // Debug log
           showLoader(false);
-          console.error('Error verifying OTP:', error);
           showPopupMessage('Error verifying OTP. Please try again.');
       });
 });
@@ -330,13 +331,14 @@ document.getElementById('resetPasswordForm').addEventListener('submit', function
 
   axios.patch('https://webexe.onrender.com/api/v1/users/password?email', { email, password: newPassword })
       .then(response => {
+          console.log('Password reset response:', response);  // Debug log
           showLoader(false);
           showPopupMessage('Password reset successful! You can now log in with your new password.');
           document.getElementById('forgot-password-popup').style.display = 'none';
       })
       .catch(error => {
+          console.log('Error resetting password:', error);  // Debug log
           showLoader(false);
-          console.error('Error resetting password:', error);
           showPopupMessage('Error resetting password. Please try again.');
       });
 });
@@ -352,18 +354,18 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
   axios.post('https://webexe.onrender.com/api/v1/users/login', formData)
       .then(response => {
+          console.log('Login response:', response);  // Debug log
           showLoader(false);
           if (response.data.status === 'success') {
               showResponsePopup('Login successful!');
               window.location.href = 'dashboard.html'; // Update this URL to your dashboard page
           } else {
-              showResponsePopup('Login successful: ' + response.data.message);
-                 window.location.href = 'dashboard.html';
+              showResponsePopup('Login failed: ' + response.data.message);
           }
       })
       .catch(error => {
+          console.log('Login error:', error);  // Debug log
           showLoader(false);
-          console.error('Error:', error);
           if (error.response) {
               showResponsePopup('Login failed: ' + (error.response.data.message || 'Unknown error'));
           } else {
@@ -374,6 +376,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
 // Function to show the response popup
 function showResponsePopup(message) {
+  console.log('Response popup message:', message);  // Debug log
   document.getElementById('response-message').innerText = message;
   document.getElementById('response-popup').style.display = 'flex';
 }
