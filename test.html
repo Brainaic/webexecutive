@@ -3,179 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>Invoice Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
+            padding: 20px;
         }
 
-        .tic-tac-toe-container {
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
             text-align: center;
         }
 
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 10px;
-            margin-bottom: 20px;
+        .form-group, .item-row {
+            margin-bottom: 15px;
         }
 
-        .cell {
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: calc(100% - 10px);
+            padding: 10px;
+            margin-right: 5px;
+            box-sizing: border-box;
+        }
+
+        .item-row {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100px;
-            height: 100px;
-            background-color: #fff;
-            border: 2px solid #333;
-            font-size: 2em;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            gap: 10px;
         }
 
-        .cell:hover {
-            background-color: #f0f0f0;
+        .item-description, .item-quantity, .item-price {
+            flex: 1;
         }
 
         button {
-            padding: 10px 20px;
-            font-size: 1em;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
 
-        .status {
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button.remove-item {
+            background-color: #dc3545;
+        }
+
+        button.remove-item:hover {
+            background-color: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
-            font-size: 1.2em;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f8f8f8;
+        }
+
+        #invoice-output {
+            display: none;
+            margin-top: 40px;
+        }
+
+        #grand-total {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #download-invoice {
+            display: none;
+            margin-top: 20px;
+            background-color: #28a745;
+        }
+
+        #download-invoice:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <div class="tic-tac-toe-container">
-        <h1>Tic Tac Toe</h1>
-        <div class="board" id="board">
-            <div class="cell" data-index="0"></div>
-            <div class="cell" data-index="1"></div>
-            <div class="cell" data-index="2"></div>
-            <div class="cell" data-index="3"></div>
-            <div class="cell" data-index="4"></div>
-            <div class="cell" data-index="5"></div>
-            <div class="cell" data-index="6"></div>
-            <div class="cell" data-index="7"></div>
-            <div class="cell" data-index="8"></div>
+    <div class="container">
+        <h1>Invoice Generator</h1>
+        <form id="invoice-form">
+            <div class="form-group">
+                <label for="invoice-number">Invoice Number:</label>
+                <input type="text" id="invoice-number" placeholder="Enter Invoice Number" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="client-name">Client Name:</label>
+                <input type="text" id="client-name" placeholder="Enter Client Name" required>
+            </div>
+            <div id="items-container">
+                <h2>Items</h2>
+                <div class="item-row">
+                    <input type="text" class="item-description" placeholder="Item Description" required>
+                    <input type="number" class="item-quantity" placeholder="Quantity" required>
+                    <input type="number" class="item-price" placeholder="Price" required>
+                    <button type="button" class="remove-item">Remove</button>
+                </div>
+            </div>
+            <button type="button" id="add-item">Add Item</button>
+            <button type="submit">Generate Invoice</button>
+        </form>
+
+        <div id="invoice-output" class="invoice">
+            <h2>Invoice</h2>
+            <p><strong>Invoice Number:</strong> <span id="output-invoice-number"></span></p>
+            <p><strong>Date:</strong> <span id="output-date"></span></p>
+            <p><strong>Client Name:</strong> <span id="output-client-name"></span></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-items"></tbody>
+            </table>
+            <p><strong>Grand Total:</strong> $<span id="grand-total">0.00</span></p>
         </div>
-        <button id="resetButton">Reset Game</button>
-        <div class="status" id="status"></div>
+        <button id="download-invoice">Download Invoice as PDF</button>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cells = document.querySelectorAll(".cell");
-            const statusDisplay = document.getElementById("status");
-            const resetButton = document.getElementById("resetButton");
+        document.getElementById('add-item').addEventListener('click', function() {
+            const itemsContainer = document.getElementById('items-container');
+            const itemRow = document.createElement('div');
+            itemRow.className = 'item-row';
+            itemRow.innerHTML = `
+                <input type="text" class="item-description" placeholder="Item Description" required>
+                <input type="number" class="item-quantity" placeholder="Quantity" required>
+                <input type="number" class="item-price" placeholder="Price" required>
+                <button type="button" class="remove-item">Remove</button>
+            `;
+            itemsContainer.appendChild(itemRow);
 
-            let currentPlayer = "X";
-            let board = ["", "", "", "", "", "", "", "", ""];
-            let gameActive = true;
+            itemRow.querySelector('.remove-item').addEventListener('click', function() {
+                itemRow.remove();
+            });
+        });
 
-            const winningConditions = [
-                [0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8],
-                [0, 3, 6],
-                [1, 4, 7],
-                [2, 5, 8],
-                [0, 4, 8],
-                [2, 4, 6],
-            ];
+        document.getElementById('invoice-form').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            function handleCellPlayed(clickedCell, clickedCellIndex) {
-                board[clickedCellIndex] = currentPlayer;
-                clickedCell.innerHTML = currentPlayer;
-            }
+            const invoiceNumber = document.getElementById('invoice-number').value;
+            const date = document.getElementById('date').value;
+            const clientName = document.getElementById('client-name').value;
 
-            function handlePlayerChange() {
-                currentPlayer = currentPlayer === "X" ? "O" : "X";
-                statusDisplay.innerHTML = `${currentPlayer}'s turn`;
-            }
+            document.getElementById('output-invoice-number').textContent = invoiceNumber;
+            document.getElementById('output-date').textContent = date;
+            document.getElementById('output-client-name').textContent = clientName;
 
-            function handleResultValidation() {
-                let roundWon = false;
-                for (let i = 0; i < winningConditions.length; i++) {
-                    const winCondition = winningConditions[i];
-                    let a = board[winCondition[0]];
-                    let b = board[winCondition[1]];
-                    let c = board[winCondition[2]];
-                    if (a === "" || b === "" || c === "") {
-                        continue;
-                    }
-                    if (a === b && b === c) {
-                        roundWon = true;
-                        break;
-                    }
-                }
+            const items = document.querySelectorAll('.item-row');
+            const invoiceItems = document.getElementById('invoice-items');
+            invoiceItems.innerHTML = ''; // Clear previous items
+            let grandTotal = 0;
 
-                if (roundWon) {
-                    statusDisplay.innerHTML = `${currentPlayer} wins!`;
-                    gameActive = false;
-                    return;
-                }
+            items.forEach(function(item) {
+                const description = item.querySelector('.item-description').value;
+                const quantity = item.querySelector('.item-quantity').value;
+                const price = item.querySelector('.item-price').value;
+                const total = quantity * price;
 
-                let roundDraw = !board.includes("");
-                if (roundDraw) {
-                    statusDisplay.innerHTML = `Game ended in a draw!`;
-                    gameActive = false;
-                    return;
-                }
+                grandTotal += total;
 
-                handlePlayerChange();
-            }
+                const itemRow = document.createElement('tr');
+                itemRow.innerHTML = `
+                    <td>${description}</td>
+                    <td>${quantity}</td>
+                    <td>$${price}</td>
+                    <td>$${total.toFixed(2)}</td>
+                `;
+                invoiceItems.appendChild(itemRow);
+            });
 
-            function handleCellClick(event) {
-                const clickedCell = event.target;
-                const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
+            document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
 
-                if (board[clickedCellIndex] !== "" || !gameActive) {
-                    return;
-                }
+            document.getElementById('invoice-output').style.display = 'block';
+            document.getElementById('download-invoice').style.display = 'inline-block';
+        });
 
-                handleCellPlayed(clickedCell, clickedCellIndex);
-                handleResultValidation();
-            }
+        document.getElementById('download-invoice').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-            function handleResetGame() {
-                currentPlayer = "X";
-                board = ["", "", "", "", "", "", "", "", ""];
-                gameActive = true;
-                statusDisplay.innerHTML = `${currentPlayer}'s turn`;
-                cells.forEach(cell => (cell.innerHTML = ""));
-            }
+            doc.text("Invoice", 105, 10, null, null, "center");
 
-            cells.forEach(cell => cell.addEventListener("click", handleCellClick));
-            resetButton.addEventListener("click", handleResetGame);
+            const invoiceElement = document.getElementById("invoice-output");
+            const invoiceHTML = invoiceElement.innerHTML;
 
-            statusDisplay.innerHTML = `${currentPlayer}'s turn`;
+            doc.fromHTML(invoiceHTML, 15, 20, { width: 170 });
+
+            doc.save("invoice.pdf");
         });
     </script>
-
-    <p>The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.</p>
-    <address>
-        Written by John Doe.<br>
-        Visit us at:<br>
-        Example.com<br>
-        Box 564, Disneyland<br>
-        USA
-        </address>
-
-        <p>Here is a quote from WWF's website:</p>
-<blockquote cite="http://www.worldwildlife.org/who/index.html">
-For 60 years, WWF has worked to help people and nature thrive. As the world's leading conservation organization, WWF works in nearly 100 countries. At every level, we collaborate with people around the world to develop and deliver innovative solutions that protect communities, wildlife, and the places in which they live.
-</blockquote>
 </body>
 </html>
