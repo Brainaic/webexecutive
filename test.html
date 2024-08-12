@@ -88,30 +88,17 @@
             background-color: #f8f8f8;
         }
 
-        #invoice-output {
-            display: none;
-            margin-top: 40px;
-        }
-
         #grand-total {
             font-size: 18px;
             font-weight: bold;
-        }
-
-        #download-invoice {
-            display: none;
             margin-top: 20px;
-            background-color: #28a745;
-        }
-
-        #download-invoice:hover {
-            background-color: #218838;
+            text-align: right;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Invoice Generator</h1>
+        <h1>Top tower technologies</h1>
         <form id="invoice-form">
             <div class="form-group">
                 <label for="invoice-number">Invoice Number:</label>
@@ -137,26 +124,6 @@
             <button type="button" id="add-item">Add Item</button>
             <button type="submit">Generate Invoice</button>
         </form>
-
-        <div id="invoice-output" class="invoice">
-            <h2>Invoice</h2>
-            <p><strong>Invoice Number:</strong> <span id="output-invoice-number"></span></p>
-            <p><strong>Date:</strong> <span id="output-date"></span></p>
-            <p><strong>Client Name:</strong> <span id="output-client-name"></span></p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody id="invoice-items"></tbody>
-            </table>
-            <p><strong>Grand Total:</strong> $<span id="grand-total">0.00</span></p>
-        </div>
-        <button id="download-invoice">Download Invoice as PDF</button>
     </div>
 
     <script>
@@ -180,55 +147,64 @@
         document.getElementById('invoice-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const invoiceNumber = document.getElementById('invoice-number').value;
-            const date = document.getElementById('date').value;
-            const clientName = document.getElementById('client-name').value;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-            document.getElementById('output-invoice-number').textContent = invoiceNumber;
-            document.getElementById('output-date').textContent = date;
-            document.getElementById('output-client-name').textContent = clientName;
+            // Add header with larger font size and a line
+            doc.setFontSize(18);
+            doc.text("Top tower technologies invoice", 105, 20, null, null, "center");
+            doc.setLineWidth(0.5);
+            doc.line(10, 25, 200, 25);
 
-            const items = document.querySelectorAll('.item-row');
-            const invoiceItems = document.getElementById('invoice-items');
-            invoiceItems.innerHTML = ''; // Clear previous items
+            // Add invoice details
+            doc.setFontSize(12);
+            doc.text(`Invoice Number: ${document.getElementById('invoice-number').value}`, 10, 35);
+            doc.text(`Date: ${document.getElementById('date').value}`, 10, 45);
+            doc.text(`Billed to: ${document.getElementById('client-name').value}`, 10, 55);
+
+            // Add table headers
+            doc.setFontSize(10);
+            doc.setFillColor(200, 200, 200);
+            doc.rect(10, 65, 190, 10, 'F');
+            doc.text("Description", 12, 72);
+            doc.text("Quantity", 90, 72);
+            doc.text("Price", 130, 72);
+            doc.text("Total", 172, 72);
+
+            // Add table data
+            let yPosition = 82;
             let grandTotal = 0;
 
+            const items = document.querySelectorAll('.item-row');
             items.forEach(function(item) {
                 const description = item.querySelector('.item-description').value;
                 const quantity = item.querySelector('.item-quantity').value;
                 const price = item.querySelector('.item-price').value;
-                const total = quantity * price;
+                const total = (quantity * price).toFixed(2);
 
-                grandTotal += total;
+                grandTotal += parseFloat(total);
 
-                const itemRow = document.createElement('tr');
-                itemRow.innerHTML = `
-                    <td>${description}</td>
-                    <td>${quantity}</td>
-                    <td>$${price}</td>
-                    <td>$${total.toFixed(2)}</td>
-                `;
-                invoiceItems.appendChild(itemRow);
+                doc.text(description, 12, yPosition);
+                doc.text(quantity.toString(), 92, yPosition);
+                doc.text(price.toString(), 132, yPosition);
+                doc.text(total.toString(), 172, yPosition);
+
+                yPosition += 10;
             });
 
-            document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
+            // Add grand total
+            doc.setLineWidth(0.5);
+            doc.line(10, yPosition, 200, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+            doc.text(`Grand Total: $${grandTotal.toFixed(2)}`, 145, yPosition);
 
-            document.getElementById('invoice-output').style.display = 'block';
-            document.getElementById('download-invoice').style.display = 'inline-block';
-        });
+            // Add footer
+            yPosition += 20;
+            doc.setFontSize(10);
+            doc.text("Thank you for your business!", 105, yPosition, null, null, "center");
 
-        document.getElementById('download-invoice').addEventListener('click', function() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.text("Invoice", 105, 10, null, null, "center");
-
-            const invoiceElement = document.getElementById("invoice-output");
-            const invoiceHTML = invoiceElement.innerHTML;
-
-            doc.fromHTML(invoiceHTML, 15, 20, { width: 170 });
-
-            doc.save("invoice.pdf");
+            doc.save(`invoice_${document.getElementById('invoice-number').value}.pdf`);
         });
     </script>
 </body>
