@@ -894,13 +894,13 @@ nav.close ~ .dashboard .top{
         }
         .columnsprice1 .price .header h1 {
             font-size: 25px;
-            color: #00bf65;
+            color: #00bf66;
 
         }
     
         .columnsprice1 .price .header sub{
             font-weight: 200;
-            font-size: 15px;
+            font-size: 15px; 
             color: #0c0323;
         }
         .columnsprice1 .price li {

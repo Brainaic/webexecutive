@@ -36,6 +36,7 @@ function showPopupMessage(message) {
             console.log('Error requesting OTP:', error);  // Debug log
             showLoader(false);
             showPopupMessage('Error requesting OTP. Please try again.');
+            document.getElementById('forgot-password-popup').style.display = 'none';
         });
   });
   
@@ -53,11 +54,13 @@ function showPopupMessage(message) {
             document.getElementById('otp-form').style.display = 'none';
             document.getElementById('reset-password-form').style.display = 'block';
             showPopupMessage('OTP verified successfully! Please reset your password.');
+
         })
         .catch(error => {
             console.log('Error verifying OTP:', error);  // Debug log
             showLoader(false);
             showPopupMessage('Error verifying OTP. Please try again.');
+            document.getElementById('forgot-password-popup').style.display = 'none';
         });
   });
   
@@ -67,8 +70,8 @@ function showPopupMessage(message) {
     const newPassword = document.getElementById('new-password').value;
     const email = document.getElementById('forgot-email').value; 
     showLoader(true);
-  
-    axios.patch('https://webexe.onrender.com/api/v1/users/password?email', { email, password: newPassword })
+
+    axios.post(`https://webexe.onrender.com/api/v1/users/password/reset?email=${email}`, { email, password: newPassword })
         .then(response => {
             console.log('Password reset response:', response);  // Debug log
             showLoader(false);
@@ -79,8 +82,11 @@ function showPopupMessage(message) {
             console.log('Error resetting password:', error);  // Debug log
             showLoader(false);
             showPopupMessage('Error resetting password. Please try again.');
+            document.getElementById('forgot-password-popup').style.display = 'none';
+
         });
-  });
+});
+
   
   // Handle login form submission
   document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -99,7 +105,7 @@ function showPopupMessage(message) {
                 showResponsePopup('Login successful!');
                 window.location.href = 'dashboard.html'; // Update this URL to your dashboard page
             } else {
-                showResponsePopup('Login failed: ' + response.data.message);
+                showResponsePopup('Login successful: ' + response.data.message);
             }
         })
         .catch(error => {

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subway Surfers Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #87CEEB; /* Sky blue background */
+        }
+
+        #gameCanvas {
+            display: block;
+            margin: 0 auto;
+            background: #DCDCDC; /* Light gray background */
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="480" height="640"></canvas>
+    <div id="gameOver" class="hidden">Game Over! <br><button onclick="restartGame()">Restart</button></div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const playerWidth = 40;
+        const playerHeight = 60;
+        const obstacleWidth = 40;
+        const obstacleHeight = 60;
+        const playerSpeed = 5;
+        const obstacleSpeed = 5;
+
+        let playerX = canvas.width / 2 - playerWidth / 2;
+        let playerY = canvas.height - playerHeight - 10;
+        let obstacles = [];
+        let keys = {};
+
+        function drawPlayer() {
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(playerX, playerY, playerWidth, playerHeight);
+        }
+
+        function drawObstacles() {
+            ctx.fillStyle = 'red';
+            obstacles.forEach(obstacle => {
+                ctx.fillRect(obstacle.x, obstacle.y, obstacleWidth, obstacleHeight);
+            });
+        }
+
+        function movePlayer() {
+            if (keys['ArrowLeft'] && playerX > 0) {
+                playerX -= playerSpeed;
+            }
+            if (keys['ArrowRight'] && playerX < canvas.width - playerWidth) {
+                playerX += playerSpeed;
+            }
+        }
+
+        function updateObstacles() {
+            obstacles.forEach(obstacle => {
+                obstacle.y += obstacleSpeed;
+            });
+            obstacles = obstacles.filter(obstacle => obstacle.y < canvas.height);
+        }
+
+        function collisionDetection() {
+            for (let obstacle of obstacles) {
+                if (playerX < obstacle.x + obstacleWidth &&
+                    playerX + playerWidth > obstacle.x &&
+                    playerY < obstacle.y + obstacleHeight &&
+                    playerY + playerHeight > obstacle.y) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            drawObstacles();
+            movePlayer();
+            updateObstacles();
+
+            if (collisionDetection()) {
+                document.getElementById('gameOver').classList.remove('hidden');
+                return;
+            }
+
+            if (Math.random() < 0.02) {
+                obstacles.push({
+                    x: Math.floor(Math.random() * (canvas.width - obstacleWidth)),
+                    y: -obstacleHeight
+                });
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function handleKeyDown(event) {
+            keys[event.key] = true;
+        }
+
+        function handleKeyUp(event) {
+            keys[event.key] = false;
+        }
+
+        function restartGame() {
+            playerX = canvas.width / 2 - playerWidth / 2;
+            playerY = canvas.height - playerHeight - 10;
+            obstacles = [];
+            document.getElementById('gameOver').classList.add('hidden');
+            gameLoop();
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keyup', handleKeyUp);
+
+        gameLoop(); // Start the game loop
+    </script>
+</body>
+</html>
